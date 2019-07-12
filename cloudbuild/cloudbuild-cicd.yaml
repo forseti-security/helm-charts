@@ -18,13 +18,13 @@ steps:
   entrypoint: /bin/mkdir
   args: ['.deploy']
 - name: 'gcr.io/$PROJECT_ID/helm'
-  id: Package the charts
-  args: ['package', '--destination', '.deploy', '/workspace/charts/']
+  id: Package the forseti-security charts
+  args: ['package', '--destination', '.deploy', '/workspace/charts/forseti-security']
 - name: 'gcr.io/$PROJECT_ID/helm'
   id: Index the chart package
-  args: ['repo', 'index', '$_BUCKET/', '--url', 'https://$_BUCKET.storage.googleapis.com/$_FOLDER']
+  args: ['repo', 'index', '.deploy', '--url', 'https://$_BUCKET.storage.googleapis.com/$_FOLDER']
 - name: 'gcr.io/cloud-builders/gsutil'
   id: Copy chart package archive to $_BUCKET
-  args: ['cp', './deploy/*', 'gs://$_BUCKET/$_FOLDER']
+  args: ['cp', '.deploy/*', 'gs://$_BUCKET/$_FOLDER']
 options:
   env: ['CLOUDSDK_CONTAINER_CLUSTER=$_CLOUDSDK_CONTAINER_CLUSTER', 'CLOUDSDK_COMPUTE_REGION=$_CLOUDSDK_COMPUTE_REGION', 'GCLOUD_PROJECT=$_GCLOUD_PROJECT']
