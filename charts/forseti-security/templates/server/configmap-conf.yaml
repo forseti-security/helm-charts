@@ -25,5 +25,5 @@ data:
 {{ if .Values.production }} 
     {{ .Values.serverConfigContents | b64dec | nindent 4 }}
 {{ else }}
-    {{- (.Files.Get "files/forseti_conf_server.yaml.sample") | replace "ROOT_RESOURCE_ID" "organizations/12345677890" | replace "output_path: OUTPUT_PATH" " output_path: /home/forseti" | replace "DOMAIN_SUPER_ADMIN_EMAIL" "test@example.com" | nindent 4 }}
+    {{- (.Files.Get "files/forseti_conf_server.yaml.sample") | replace "ROOT_RESOURCE_ID" "organizations/12345677890" | replace "output_path: OUTPUT_PATH" "output_path: /home/forseti" | replace "DOMAIN_SUPER_ADMIN_EMAIL" "test@example.com" | nindent 4 }}
 {{ end }}
