@@ -26,3 +26,5 @@ steps:
 - name: 'gcr.io/cloud-builders/gsutil'
   id: Copy chart package archive to $_BUCKET
   args: ['cp', './deploy/*', 'gs://$_BUCKET/$_FOLDER']
+options:
+  env: ['CLOUDSDK_CONTAINER_CLUSTER=$_CLOUDSDK_CONTAINER_CLUSTER', 'CLOUDSDK_COMPUTE_REGION=$_CLOUDSDK_COMPUTE_REGION']
