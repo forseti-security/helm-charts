@@ -15,11 +15,12 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: forseti-server-conf
+  name: {{ .Release.Name }}-server-conf
   labels:
     chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
     gcs_bucket: "{{ .Values.serverBucket }}"
     gcs_object: "{{ .Values.serverBucketConfigFolder }}"
+    component: forseti-server
 data:
   forseti_conf_server.yaml: |-
 {{ if .Values.production }} 

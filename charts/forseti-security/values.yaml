@@ -18,41 +18,58 @@ cloudsqlConnection: ""
 # Whether or not to deploy a load balancer: none, external, internal
 loadBalancer: none
 
+# Whether or not to deploy the orchestrator.
 orchestratorDeploy: true
 
 # The container image used by the Forseti Orchestrator
 orchestratorImage: "gcr.io/forseti-containers/forseti"
 
+# The tag for the orchestrator container image.
 orchestratorImageTag: "v2.18.0"
 
+# The Base64 encoded JSON credentials for the orchestrator.  This can be the IAM
+# service account key for the Forseti Client.
 orchestratorKeyContents: ""
 
+# The GCS bucket containing the rules.  Often this is the same as the
+# serverBucket.  Ommit the "gs://".
 rulesBucket: ""
 
+# The Folder inside the rulesBucket containing all the rules.
 rulesBucketFolder: "rules"
 
 # The bucket containing the client configurations
 serverBucket: ""
 
+# The folder in the server bucket containing the server configs.
 serverBucketConfigFolder: "configs"
 
+# The Base64 encoded contents of the forseti_conf_server.yaml file.
 serverConfigContents: ""
 
 # The container image used by the server
 serverImage: "gcr.io/forseti-containers/forseti"
 
+# The tag for the server container image.
 serverImageTag: "v2.18.0"
 
+# The Base64 JSON credentials for the server.
 serverKeyContents: ""
 
+# The log level for the server.
 serverLogLevel: info
 
 # The cron schedule for the server.  The default is every
 # 60 minutes
 serverSchedule: "*/60 * * * *"
 
+# Enable pod network policy to limit the connectivty to the server.
 networkPolicyEnable: false
 
+# A list of CIDR's from which to allow communication to the server.
+# This is only relevant for client connectivity from outside the
+# Kubernetes cluster.
 networkPolicyIngressCidr: []
 
+# Deploy in a production configuration.
 production: false

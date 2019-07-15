@@ -15,16 +15,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: forseti-server
+  name: {{ .Release.Name }}-server
 spec:
   selector:
     matchLabels:
-      app: forseti-server
+      component: forseti-server
   replicas: 1
   template:
     metadata:
       labels:
-        app: forseti-server
+        component: forseti-server
         chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
     spec:
       containers:
@@ -102,10 +102,10 @@ spec:
       volumes:
       - name: google-cloud-key
         secret:
-          secretName: server-credentials
+          secretName: {{ .Release.Name }}-server-credentials
       - name: forseti-server-config-volume
         configMap:
-          name: forseti-server-conf
+          name: {{ .Release.Name }}-server-conf
 {{ if not .Values.production }}
       - name: mysql-disk
         emptyDir: {}

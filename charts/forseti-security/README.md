@@ -36,7 +36,7 @@ helm install --set production=true \
              --set-string serverKeyContents="$(cat forseti-server.json | base64 - -w 0)" \
              --set-string orchestratorKeyContents="$(cat forseti-client.json | base64 - -w 0)" \
              --values=forseti-values.yaml \
-             incubator/forseti-security
+             forseti-security/forseti-security
 ```
 Note that certain values are required.  See the [configuration](#configuration) for details.
 
@@ -44,7 +44,7 @@ Note that certain values are required.  See the [configuration](#configuration) 
 
 The forseti-security Helm chart can be easily upgraded via the ```helm upgrade``` command.  For example:
 ```bash
-helm upgrade -i forseti incubator/forseti-security \
+helm upgrade -i forseti forseti-security/forseti-security \
     --set production=true \
     --recreate-pods \
     --set-string serverKeyContents="$(cat forseti-server.json | base64 - -w 0)" \
@@ -69,7 +69,7 @@ As a best practice, a YAML file that specifies the values for the chart paramete
 **Copy the default [`forseti-security-values.yaml`](values.yaml) value file.**
 
 ```bash
-helm install -f forseti-security-values.yaml <RELEASE_NAME> incubator/forseti-security
+helm install -f forseti-security-values.yaml <RELEASE_NAME> forseti-security/forseti-security
 ```
 
 See the [All configuration options](#all-configuration-options) section to discover all possibilities offered by the Forseti Security chart.
@@ -87,7 +87,7 @@ In this implementation, the NetworkPolicy allows forseti-orchestrator to communi
 The following table lists the configurable parameters of the Forseti Security chart and their default values. Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`. For example,
 
 ```bash
-helm install incubator/forseti-security \
+helm install forseti-security/forseti-security \
     --name forseti \
     --set production=true
     --set-string orchestratorKeyContents="$(cat PATH_TO_CLIENT_KEY_JSON| base64 - -w 0)" \
@@ -100,20 +100,21 @@ helm install incubator/forseti-security \
 | ----------------------------- | ------------------------------------ |------------------------------------------- |
 | **cloudsqlConnection**        | This is the connection to the CloudSQL instance.          | `nil`|
 | loadBalancer                  | Deploy a Load Balancer allowing access to the Forseti server ['none', 'internal', 'external'] | `none` |
-| networkPolicyEnable           | Enable pod network policy to limit the connectivty to the server | `false` |
+| networkPolicyEnable           | Enable pod network policy to limit the connectivty to the server. | `false` |
 | networkPolicyIngressCidr      | A list of CIDR's from which to allow communication to the server.  This is only relevant for client connectivity from outside the Kubernetes cluster. | `[]` |
 | orchestratorDeploy            | Whether or not to deploy the orchestrator.                | `true`|
 | orchestratorImage             | The container image used by the orchestrator.             | `gcr.io/forseti-security-containers/forseti`|
-| orchestratorImageTag          | The tag for the orchestrator container image              | `v2.18.0` |
+| orchestratorImageTag          | The tag for the orchestrator container image.              | `v2.18.0` |
 | **orchestratorKeyContents**   | The Base64 encoded JSON credentials for the orchestrator.  This can be the IAM service account key for the Forseti Client.| `nil`|
-| production                    | Deploy in a production configuration                      | `false`|
+| production                    | Deploy in a production configuration.                      | `false`|
 | rulesBucket                   | The GCS bucket containing the rules.  Often this is the same as the serverBucket.  Ommit the "gs://".| serverBucket |
 | rulesBucketFolder             | The Folder inside the rulesBucket containing all the rules.| `rules`|
 | **serverBucket**              | The GCS bucket used by the Forseti server.  Omit the "gs://" | `nil`|
+| serverBucketConfigFolder      | The folder in the server bucket containing the server configs. | `configs` |
 | **serverConfigContents**      | The Base64 encoded contents of the forseti_conf_server.yaml file.| `nil`|
-| serverImage                   | The container image used by the server.                   | `gcr.io/forseti-security-containers/forseti:latest`|
-| serverImageTag                | The tag for the server container image              | `v2.18.0` |
-| **serverKeyContents**         | The Base64 JSON credentials for the server                       | `nil`|
+| serverImage                   | The container image used by the server.                   | `gcr.io/forseti-security-containers/forseti`|
+| serverImageTag                | The tag for the server container image.              | `v2.18.0` |
+| **serverKeyContents**         | The Base64 JSON credentials for the server.                       | `nil`|
 | serverLogLevel                | The log level for the server.                             | `info` |
 | serverSchedule                | The cron schedule for the server.  The default is every 60 minute.    | `"*/60 * * * *"` Every 60 minutes|
 
