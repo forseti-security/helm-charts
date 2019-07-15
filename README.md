@@ -8,9 +8,7 @@ Add the Repository to Helm:
 
     helm repo add forseti-security https://forseti-security-charts.storage.googleapis.com/release
 
-Install Forseti:
-
-    helm install forseti-security/forseti-security
+Please see each applications README.md for instructions on how to install the chart.
 
 ## Apps and Compatibility
 
