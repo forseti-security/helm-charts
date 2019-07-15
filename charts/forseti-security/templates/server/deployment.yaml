@@ -41,7 +41,7 @@ spec:
 {{- else }}
         - 'server inventory'
         - --sql_host
-        - forseti-server.{{ .Release.Namespace }}.svc.cluster.local
+        - {{ .Release.Name }}-server.{{ .Release.Namespace }}.svc.cluster.local
 {{ end }}
         - --log_level
         -  {{ .Values.serverLogLevel | default "debug" }} 
