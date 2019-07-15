@@ -42,7 +42,7 @@ rules:
 - apiGroups: ["extensions", "apps"]
   resources: ["deployments", "replicasets"]
   verbs: ["get", "list", "create", "delete", "update"]
-- apiGroups: ["extensions", "batch/v1beta1"]
+- apiGroups: ["extensions", "batch/v1beta1", "batch"]
   resources: ["jobs", "cronjobs"]
   verbs: ["get", "list", "create", "delete", "update"]
 - apiGroups: ["networking.k8s.io"]
