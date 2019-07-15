@@ -16,10 +16,10 @@
 apiVersion: batch/v1beta1
 kind: CronJob
 metadata:
-  name: forseti-orchestrator
+  name: {{ .Release.Name }}-orchestrator
   labels:
     chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
-    app: forseti-orchestrator
+    component: forseti-orchestrator
 spec:
   schedule: "{{ .Values.serverSchedule }}"
   jobTemplate:
@@ -27,11 +27,11 @@ spec:
       template:
         metadata:
           labels:
-            app: forseti-orchestrator
+            component: forseti-orchestrator
             chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
         spec:
           containers:
-          - name: forseti-orchestrator
+          - name: {{ .Release.Name }}-orchestrator
             image: "{{ .Values.orchestratorImage }}:{{ .Values.orchestratorImageTag | default .Chart.AppVersion }}"
             imagePullPolicy: Always
             args:
@@ -48,7 +48,7 @@ spec:
           volumes:
           - name: google-cloud-key
             secret:
-              secretName: orchestrator-credentials
+              secretName: {{ .Release.Name }}-orchestrator-credentials
           restartPolicy: Never
           schedulerName: default-scheduler
       completions: 1
