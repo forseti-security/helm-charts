@@ -5,7 +5,7 @@
 ## Prerequisites
 
 1. Kubernetes Cluster 1.11+
-2. A Forseti environment.  This can be created via the Forseti Security [install scripts](https://forsetisecurity.org/docs/latest/setup/install.html) OR the Forseti [Terraform module](https://registry.terraform.io/modules/terraform-google-modules/forseti/google/2.0.0). Specifically: <ol type="a"><li>A CloudSQL Instance</li><li>A forseti-server IAM service account</li><li>A forseti-server IAM service account</li><li>A forseti-client IAM service account (for the orchestrator)</li><li>A local copy of a service account key for the forseti-server and forseti-client IAM service accounts</li></ol>
+2. A Forseti environment.  This can be created via the Forseti Security [install scripts](https://forsetisecurity.org/docs/latest/setup/install.html) OR the Forseti [Terraform module](https://registry.terraform.io/modules/terraform-google-modules/forseti/google/2.0.0). Specifically: <ol type="a"><li>A CloudSQL Instance</li><li>A forseti-server IAM service account</li><li>A forseti-client IAM service account (for the orchestrator)</li><li>A local copy of a service account key for the forseti-server and forseti-client IAM service accounts</li></ol>
 
 
 ## Production Configuration
