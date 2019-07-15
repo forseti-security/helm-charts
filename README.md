@@ -12,8 +12,8 @@ Install Forseti:
 
     helm install forseti-security/forseti-security
 
-## Apps and Compatability
+## Apps and Compatibility
 
-| Application                          | Application Version | Compatable Chart Version |
+| Application                          | Application Version | Compatible Chart Version |
 | -----------------                    | ------------------  | ---------------          |
 | [Forseti](./charts/forseti-security) | 2.18.0              | 1.0.0 |
