@@ -18,10 +18,12 @@ name: forseti-security
 version: 1.0.0
 appVersion: 2.18.0
 home: https://forsetisecurity.org/
-icon: https://forsetisecurity.org/images/site/logo/white-logo-trans.png
+icon: https://forsetisecurity.org/images/site/logo/blue-logo.png
 sources:
 - https://github.com/forseti-security/forseti-security
 - https://gcr.io/forseti-containers/forseti:v2.18.0
 maintainers:
 - name: kevensen
-  email: kdevensen@google.com
+  email: kdevensen@forsetisecurity.org
+- name: hshin-g
+  email: shinhannah@forsetisecurity.org
