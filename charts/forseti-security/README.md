@@ -41,7 +41,7 @@ helm install --set production=true \
 ```
 Note that certain values are required.  See the [configuration](#configuration) for details.
 
-Also note that if in a *Darwin* environment, the `-w 0` flag is not supported for the `base64` command and should be ommitted from the above command.
+Also note that if running on *MacOS*, the `-w 0` flag is not supported for the `base64` command and should be ommitted from the above command.
 
 ### Upgrading
 
