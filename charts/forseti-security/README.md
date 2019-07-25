@@ -28,7 +28,9 @@ Optionally, a Forseti orchestrator can be deployed.  This is essentially a conta
 
 ## Installing the Forseti Security Chart
 
-### Installing
+### With Tiller (Option 1)
+
+#### Installing
 The forseti-security Helm chart can be installed using the following as an example:
 ```bash
 helm install --set production=true \
@@ -43,7 +45,7 @@ Note that certain values are required.  See the [configuration](#configuration) 
 
 Also note that if running on *MacOS*, the `-w 0` flag is not supported for the `base64` command and should be ommitted from the above command.
 
-### Upgrading
+#### Upgrading
 
 The forseti-security Helm chart can be easily upgraded via the ```helm upgrade``` command.  For example:
 ```bash
@@ -56,7 +58,7 @@ helm upgrade -i forseti forseti-security/forseti-security \
     --values=forseti-values.yaml
 ```
 
-### Uninstalling the Chart
+#### Uninstalling
 
 To uninstall/delete the `<RELEASE_NAME>` deployment:
 
@@ -65,6 +67,42 @@ helm delete <RELEASE_NAME> --purge
 ```
 
 The command removes all the Kubernetes components associated with the chart and deletes the release.
+
+### Without Tiller (Option 2)
+
+If Tiller is not present in the environment, the charts can still be deployed.
+
+#### Installing or Upgrading
+
+First fetch the chart and download it locally.
+
+```bash
+helm fetch forseti-security/forseti-security
+```
+
+Next, render the template and pipe it into `kubectl`.  Take note to change the **[SERVER_BUCKET]** and **[VERSION]** values in the command below.
+
+```bash
+helm template --set production=true \
+              --set-string serverKeyContents="$(cat forseti-server.json | base64 - -w 0)" \
+              --set-string orchestratorKeyContents="$(cat forseti-client.json | base64 - -w 0)" \
+              --set-string serverConfigContents="$(gsutil cat gs://[SERVER_BUCKET]/configs/forseti_conf_server.yaml | base64 -)" \
+              --values=forseti-values.yaml \
+              forseti-security-[VERSION].tgz | kubectl apply -f -
+```
+
+#### Uninstalling
+
+Similar to installing or upgrading, the Forseti Security components can be uninstalled leveraging Helm's `template` sub-command.
+
+```bash
+helm template --set production=true \
+              --set-string serverKeyContents="$(cat forseti-server.json | base64 - -w 0)" \
+              --set-string orchestratorKeyContents="$(cat forseti-client.json | base64 - -w 0)" \
+              --set-string serverConfigContents="$(gsutil cat gs://[SERVER_BUCKET]/configs/forseti_conf_server.yaml | base64 -)" \
+              --values=forseti-values.yaml \
+              forseti-security-[VERSION].tgz | kubectl delete -f -
+```
 
 ## Configuration
 
