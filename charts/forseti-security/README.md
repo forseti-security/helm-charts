@@ -37,7 +37,7 @@ helm install --set production=true \
              --name forseti  \
              --set-string serverKeyContents="$(cat forseti-server.json | base64 - -w 0)" \
              --set-string orchestratorKeyContents="$(cat forseti-client.json | base64 - -w 0)" \
-             --set-string serverConfigContents="$(gsutil cat gs://<BUCKET_NAME>/<CONFIGS_FOLDER>/forseti_conf_server.yaml | base64 -)" \
+             --set-string serverConfigContents="$(gsutil cat gs://<BUCKET_NAME>/configs/forseti_conf_server.yaml | base64 -)" \
              --values=forseti-values.yaml \
              forseti-security/forseti-security
 ```
@@ -54,7 +54,7 @@ helm upgrade -i forseti forseti-security/forseti-security \
     --recreate-pods \
     --set-string serverKeyContents="$(cat forseti-server.json | base64 - -w 0)" \
     --set-string orchestratorKeyContents="$(cat forseti-client.json | base64 - -w 0)" \
-    --set-string serverConfigContents="$(gsutil cat gs://<BUCKET_NAME>/<CONFIGS_FOLDER>/forseti_conf_server.yaml | base64 -)" \
+    --set-string serverConfigContents="$(gsutil cat gs://<BUCKET_NAME>/configs/forseti_conf_server.yaml | base64 -)" \
     --values=forseti-values.yaml
 ```
 
@@ -90,6 +90,7 @@ helm template --set production=true \
               --values=forseti-values.yaml \
               forseti-security-[VERSION].tgz | kubectl apply -f -
 ```
+Also note that if running on *MacOS*, the `-w 0` flag is not supported for the `base64` command and should be ommitted from the above command.
 
 #### Uninstalling
 
@@ -103,6 +104,7 @@ helm template --set production=true \
               --values=forseti-values.yaml \
               forseti-security-[VERSION].tgz | kubectl delete -f -
 ```
+Also note that if running on *MacOS*, the `-w 0` flag is not supported for the `base64` command and should be ommitted from the above command.
 
 ## Configuration
 
@@ -134,7 +136,7 @@ helm install forseti-security/forseti-security \
     --set production=true
     --set-string orchestratorKeyContents="$(cat PATH_TO_CLIENT_KEY_JSON| base64 - -w 0)" \
     --set-string serverKeyContents="$(cat PATH_TO_SERVER_KEY_JSON | base64 - -w 0)" \
-    --set-string serverConfigContents="$(gsutil cat gs://<BUCKET_NAME>/<CONFIGS_FOLDER>/forseti_conf_server.yaml | base64 -)" \
+    --set-string serverConfigContents="$(gsutil cat gs://<BUCKET_NAME>/configs/forseti_conf_server.yaml | base64 -)" \
     --values forseti-values.yaml
     
 ```
