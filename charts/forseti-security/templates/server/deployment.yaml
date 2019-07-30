@@ -44,7 +44,9 @@ spec:
         - {{ .Release.Name }}-server.{{ .Release.Namespace }}.svc.cluster.local
 {{ end }}
         - --log_level
-        -  {{ .Values.serverLogLevel | default "debug" }} 
+        -  {{ .Values.serverLogLevel | default "debug" }}
+        - --server_host
+        - 0.0.0.0
         volumeMounts:
         - name: google-cloud-key
           mountPath: /var/secrets/google
