@@ -34,4 +34,9 @@ spec:
     ports:
     - protocol: TCP
       port: 50051
+  - ports:
+    - protocol: TCP
+      port: 53
+    - protocol: UDP
+      port: 53
 {{ end }}
