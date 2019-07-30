@@ -36,6 +36,8 @@ spec:
             imagePullPolicy: Always
             args:
             - --run_client
+            - --server_host
+            - {{ .Release.Name }}-server.{{ .Release.Namespace }}.svc.cluster.local
             env:
             - name: FORSETI_HOME
               value: /forseti-security/
