@@ -18,7 +18,7 @@ name: forseti-security
 version: 1.0.2
 appVersion: 2.19.0
 home: https://forsetisecurity.org/
-icon: https://forsetisecurity.org/images/site/logo/blue-logo.png
+icon: https://forsetisecurity.org/images/site/logo/blue-logo-trans.png
 sources:
 - https://github.com/forseti-security/forseti-security
 - https://gcr.io/forseti-containers/forseti:v2.19.0
