@@ -12,6 +12,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+# This is an example RBAC that allows the tiller service account 
+# access to the necessary resources
+
 apiVersion: v1
 kind: ServiceAccount
 metadata:
@@ -36,15 +39,6 @@ kind: ClusterRole
 metadata:
   name: tiller-admin
 rules:
-- apiGroups: [""]
-  resources: ["pods", "services", "secrets", "configmaps", "namespaces", "persistentvolumeclaims"]
-  verbs: ["get", "list", "create", "delete", "update", "patch"]
-- apiGroups: ["extensions", "apps"]
-  resources: ["deployments", "replicasets"]
-  verbs: ["get", "list", "create", "delete", "update", "patch"]
-- apiGroups: ["extensions", "batch/v1beta1", "batch"]
-  resources: ["jobs", "cronjobs"]
-  verbs: ["get", "list", "create", "delete", "update", "patch"]
-- apiGroups: ["networking.k8s.io"]
-  resources: ["networkpolicies"]
-  verbs: ["get", "list", "create", "delete", "update", "patch"]
+- apiGroups: ["", "extensions", "apps", "batch/v1beta1", "batch", "networking.k8s.io"]
+  resources: ["*"]
+  verbs: ["*"]
