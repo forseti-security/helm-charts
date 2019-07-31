@@ -12,28 +12,27 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-## Note this is not being run at the moment.
-
 apiVersion: v1
 kind: Pod
 metadata:
-  name: forseti-connection-test
+  name: {{ .Release.Name }}-inventory-list-test
   labels:
     chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
-    component: forseti-connection-test
+    component: helm-test
   annotations:
     "helm.sh/hook": test-success
 spec:
   containers:
-  - name: forseti-connection-test
+  - name: forseti-inventory-test
     image: "{{ .Values.orchestratorImage }}:{{ .Values.orchestratorImageTag | default .Chart.AppVersion }}"
     imagePullPolicy: Always
+    command: ['forseti']
     args:
-    - --run_test
+    - --endpoint
+    - {{ .Release.Name }}-server.{{ .Release.Namespace }}.svc.cluster.local:50051
+    - inventory
+    - list
     env:
     - name: FORSETI_HOME
       value: /forseti-security/
-    securityContext:
-      runAsUser: 1000
   restartPolicy: Never
-  schedulerName: default-scheduler
