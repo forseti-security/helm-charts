@@ -31,15 +31,15 @@ spec:
     - podSelector:
         matchLabels:
           component: forseti-orchestrator
-{{ if not .Values.production }}
+{{- if not .Values.production }}
     - podSelector:
         matchLabels:
           component: forseti-connection-test
-{{ end }}
-{{ range $cidr := .Values.networkPolicyIngressCidr }}
+{{- end }}
+{{- range $cidr := .Values.networkPolicyIngressCidr }}
     - ipBlock:
         cidr: {{ $cidr }}
-{{ end }}
+{{- end }}
     ports:
     - protocol: TCP
       port: 50051

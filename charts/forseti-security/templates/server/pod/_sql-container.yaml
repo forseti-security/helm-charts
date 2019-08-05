@@ -12,19 +12,21 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: {{ .Release.Name }}-server
-spec:
-  selector:
-    matchLabels:
-      component: forseti-server
-  replicas: 1
-  template:
-    metadata:
-      labels:
-        component: forseti-server
-        chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
-    spec:
-{{- include "spec.pod.server" . | indent 6 }}
+{{ define "spec.container.sql" }}
+- name: sql
+  image: mysql:5.7
+  securityContext:
+    runAsUser: 999
+    runAsGroup: 999
+    fsGroup: 999
+  env:
+  - name: MYSQL_ALLOW_EMPTY_PASSWORD
+    value: "1"
+  - name: MYSQL_DATABASE
+    value: forseti_security
+  ports:
+  - containerPort: 3306
+  volumeMounts:
+  - name: mysql-disk
+    mountPath: /var/lib/mysql
+{{ end }}

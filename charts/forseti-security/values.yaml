@@ -15,6 +15,15 @@
 # cloudsqlConnection is the connection to the cloudsql instance
 cloudsqlConnection: ""
 
+# configValidator sets whether or not to deploy config-validator
+configValidator: true
+
+# configValidatorImage is the container image used by the config-validator
+configValidatorImage: gcr.io/forseti-containers/config-validator
+
+# configValidatorImageTag is the tag for the config-validator image.
+configValidatorImageTag: latest
+
 # loadBalancer is the type of load balancer to deploy for the forseti-server
 # if desired: none, external, internal
 loadBalancer: none
@@ -31,6 +40,10 @@ orchestratorImageTag: "v2.20.0"
 # orchestratorKeyContents is the Base64 encoded JSON credentials for the
 # orchestrator.  This can be the IAM service account key for the Forseti Client.
 orchestratorKeyContents: ""
+
+# policyLibraryLocation is either the Git repository or GCS bucket containing the policy-library.
+# If value is a GCS bucket, the location must start with gs://
+policyLibraryLocation: "https://github.com/forseti-security/policy-library"
 
 # rulesBucket is the GCS bucket containing the rules.  Often this is the same as the
 # serverBucket.  Ommit the "gs://".
