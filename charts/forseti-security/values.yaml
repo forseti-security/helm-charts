@@ -41,9 +41,8 @@ orchestratorImageTag: "v2.20.0"
 # orchestrator.  This can be the IAM service account key for the Forseti Client.
 orchestratorKeyContents: ""
 
-# policyLibraryLocation is either the Git repository or GCS bucket containing the policy-library.
-# If value is a GCS bucket, the location must start with gs://
-policyLibraryLocation: "https://github.com/forseti-security/policy-library"
+# policyLibraryRepositoryURL is a git repository policy-library.
+policyLibraryRepositoryURL: "https://github.com/forseti-security/policy-library"
 
 # rulesBucket is the GCS bucket containing the rules.  Often this is the same as the
 # serverBucket.  Ommit the "gs://".

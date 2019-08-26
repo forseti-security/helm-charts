@@ -13,19 +13,8 @@
 # limitations under the License.
 {{ define "spec.container.policyLibraryImporter" }}
 - name: policy-library-importer
-{{- if hasPrefix "gs://"  .Values.policyLibraryLocation}}
-  image: gcr.io/cloud-builders/gsutil:latest
-  {{- /* This ensures that the gs bucket location string ends in '/*' */ -}}
-  {{- $bucketPathRegex := "(.*\\w)(($)|(\\*$)|(/$))" }}
-  {{- $bucketPath := regexReplaceAll $bucketPathRegex .Values.policyLibraryLocation "${1}/*" }}
-  args: ["cp", "-r", "{{ $bucketPath }}", "/policy-library/"]
-  env:
-  - name: HOME
-    value: /policy-library
-{{- else }}
   image: gcr.io/cloud-builders/git:latest
-  args: ["clone", "{{ .Values.policyLibraryLocation }}", "/policy-library/"]
-{{- end }}
+  args: ["clone", "{{ .Values.policyLibraryRepositoryURL }}", "/policy-library/"]
   securityContext:
     runAsUser: 65532
     runAsGroup: 65532

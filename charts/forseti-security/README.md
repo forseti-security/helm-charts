@@ -152,7 +152,7 @@ helm install forseti-security/forseti-security \
 | orchestratorImageTag          | The tag for the orchestrator container image.              | `v2.18.0` |
 | **orchestratorKeyContents**   | The Base64 encoded JSON credentials for the orchestrator.  This can be the IAM service account key for the Forseti Client.| `nil`|
 | production                    | Deploy in a production configuration.                      | `false`|
-| policyLibraryLocation         | The Git repository or GCS bucket containing the policy-library.  If value is a GCS bucket, the location must start with **gs://**.               | `https://github.com/forseti-security/policy-library` |
+| policyLibraryRepositoryURL    | The Git repository or GCS bucket containing the policy-library. | `https://github.com/forseti-security/policy-library` |
 | rulesBucket                   | The GCS bucket containing the rules.  Often this is the same as the serverBucket.  Ommit the "gs://".| serverBucket |
 | rulesBucketFolder             | The Folder inside the rulesBucket containing all the rules.| `rules`|
 | **serverBucket**              | The GCS bucket used by the Forseti server.  Omit the "gs://" | `nil`|
