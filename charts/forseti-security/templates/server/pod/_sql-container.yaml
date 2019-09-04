@@ -29,4 +29,4 @@
   volumeMounts:
   - name: mysql-disk
     mountPath: /var/lib/mysql
-{{ end }}
+{{ end -}}

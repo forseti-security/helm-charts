@@ -26,7 +26,7 @@
   - 'server inventory'
   - --sql_host
   - {{ .Release.Name }}-server.{{ .Release.Namespace }}.svc.cluster.local
-{{ end }}
+{{- end }}
   - --log_level
   -  {{ .Values.serverLogLevel | default "debug" }}
   - --server_host
@@ -54,4 +54,4 @@
     timeoutSeconds: 5
     successThreshold: 1
     failureThreshold: 3
-{{ end }}
+{{ end -}}

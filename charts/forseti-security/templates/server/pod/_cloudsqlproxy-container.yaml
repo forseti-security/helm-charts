@@ -23,4 +23,4 @@
   - name: google-cloud-key
     mountPath: /var/secrets/google
     readOnly: true
-{{ end }}
+{{ end -}}
