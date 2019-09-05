@@ -43,6 +43,10 @@
     value: /var/secrets/google/key.json
   - name: FORSETI_HOME
     value: /forseti-security
+{{- if .Values.configValidator }}
+  - name: CONFIG_VALIDATOR_ENDPOINT
+    value: {{ .Release.Name }}-config-validator.{{ .Release.Namespace }}.svc.cluster.local:50052
+{{- end }}
   livenessProbe:
     exec:
       command:

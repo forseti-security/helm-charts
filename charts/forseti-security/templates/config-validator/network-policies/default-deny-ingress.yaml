@@ -12,26 +12,18 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-{{- define "spec.pod.server" }}
-containers:
-{{- include "spec.container.server" . }}
-{{- if .Values.production }}
-{{- include "spec.container.cloudsqlproxy" . }}
-{{- else }}
-{{- include "spec.container.sql" . }}
+{{ if .Values.networkPolicyEnable }}
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: {{ .Release.Name }}-config-validator-deny-ingress
+  labels:
+    chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+    component: config-validator
+spec:
+  podSelector:
+    matchLabels:
+      component: forseti-server
+  policyTypes:
+  - Ingress
 {{ end }}
-securityContext:
-  runAsUser: 1000
-  fsGroup: 65532
-volumes:
-- name: google-cloud-key
-  secret:
-    secretName: {{ .Release.Name }}-server-credentials
-- name: forseti-server-config-volume
-  configMap:
-    name: {{ .Release.Name }}-server-conf
-{{- if not .Values.production }}
-- name: mysql-disk
-  emptyDir: {}
-{{ end }}
-{{- end }}

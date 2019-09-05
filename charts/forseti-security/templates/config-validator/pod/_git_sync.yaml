@@ -11,27 +11,15 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
-{{- define "spec.pod.server" }}
-containers:
-{{- include "spec.container.server" . }}
-{{- if .Values.production }}
-{{- include "spec.container.cloudsqlproxy" . }}
-{{- else }}
-{{- include "spec.container.sql" . }}
-{{ end }}
-securityContext:
-  runAsUser: 1000
-  fsGroup: 65532
-volumes:
-- name: google-cloud-key
-  secret:
-    secretName: {{ .Release.Name }}-server-credentials
-- name: forseti-server-config-volume
-  configMap:
-    name: {{ .Release.Name }}-server-conf
-{{- if not .Values.production }}
-- name: mysql-disk
-  emptyDir: {}
-{{ end }}
+{{ define "spec.container.configValidatorGitSync" }}
+- name: git-sync
+  image: "{{ .Values.gitSyncImage }}:{{ .Values.gitSyncImageTag }}"
+  args: ["-repo={{ .Values.policyLibraryRepositoryURL }}", "-branch={{ .Values.policyLibraryRepositoryBranch }}", "-wait=60"]
+  securityContext:
+    runAsUser: 65533
+    runAsGroup: 65533
+    fsGroup: 65533
+  volumeMounts:
+  - name: policy-library
+    mountPath: /tmp/git/
 {{- end }}

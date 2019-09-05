@@ -24,6 +24,12 @@ configValidatorImage: gcr.io/forseti-containers/config-validator
 # configValidatorImageTag is the tag for the config-validator image.
 configValidatorImageTag: latest
 
+# gitSyncImage is the container image used by the config-validator git-sync side-car
+gitSyncImage: gcr.io/google-containers/git-sync
+
+# gitSyncImageTag is the container image tag used by the config-validator git-sync side-car
+gitSyncImageTag: v3.1.2
+
 # loadBalancer is the type of load balancer to deploy for the forseti-server
 # if desired: none, external, internal
 loadBalancer: none
@@ -43,6 +49,9 @@ orchestratorKeyContents: ""
 
 # policyLibraryRepositoryURL is a git repository policy-library.
 policyLibraryRepositoryURL: "https://github.com/forseti-security/policy-library"
+
+# policyLibraryRepositoryBranch is the specific git branch containing the policies.
+policyLibraryRepositoryBranch: "master"
 
 # rulesBucket is the GCS bucket containing the rules.  Often this is the same as the
 # serverBucket.  Ommit the "gs://".

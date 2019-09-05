@@ -17,17 +17,15 @@
   # -policyPath        https://github.com/forseti-security/policy-library/tree/master/policies
   # -policyLibraryPath https://github.com/forseti-security/policy-library/tree/master/lib
   args: ["-policyPath", "/policy-library/policies", "-policyLibraryPath", "/policy-library/lib", "-port", "50052", "-alsologtostderr"]
-  securityContext:
-    runAsUser: 65532
-    runAsGroup: 65532
-    fsGroup: 65532
+  ports:
+  - containerPort: 50052
   volumeMounts:
   - name: policy-library
-    mountPath: /policy-library/lib
-    subPath: lib
+    mountPath: /policy-library/policies
+    subPath: policy-library/policies
     readOnly: true
   - name: policy-library
-    mountPath: /policy-library/policies
-    subPath: policies
+    mountPath: /policy-library/lib
+    subPath: policy-library/lib
     readOnly: true
 {{- end }}
