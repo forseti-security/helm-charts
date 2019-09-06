@@ -30,6 +30,15 @@ gitSyncImage: gcr.io/google-containers/git-sync
 # gitSyncImageTag is the container image tag used by the config-validator git-sync side-car
 gitSyncImageTag: v3.1.2
 
+# gitSyncPrivateSSHKey is the private OpenSSH key generated to allow the git-sync to clone the policy library repository.
+gitSyncPrivateSSHKey: ""
+
+# gitSyncSSH use SSH for git-sync operations
+gitSyncSSH: false
+
+# gitSyncWait the time number of seconds between git-syncs
+gitSyncWait: 30
+
 # loadBalancer is the type of load balancer to deploy for the forseti-server
 # if desired: none, external, internal
 loadBalancer: none

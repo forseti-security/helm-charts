@@ -144,6 +144,14 @@ helm install forseti-security/forseti-security \
 | Parameter                                | Description                                    | Default|
 | ----------------------------- | ------------------------------------ |------------------------------------------- |
 | **cloudsqlConnection**        | This is the connection to the CloudSQL instance.          | `nil`|
+| configValidator               | This sets whether or not to deploy config-validator       | `true` |
+| configValidatorImage          | This is the container image used by the config-validator  | `gcr.io/forseti-containers/config-validator` |
+| configValidatorImageTag       | This is the tag for the config-validator image.           | `latest` |
+| gitSyncImage                  | This is the container image used by the config-validator git-sync side-car | `gcr.io/google-containers/git-sync` |
+| gitSyncImageTag               | This is the container image tag used by the config-validator git-sync side-car | `v3.1.2` |
+| gitSyncPrivateSSHKey          | This is the private OpenSSH key generated to allow the git-sync to clone the policy library repository. | `nil` |
+| gitSyncSSH                    | Whether or not to use SSH for git-sync operations         | `false` |
+| gitSyncWait                   | This is the time number of seconds between git-syncs      | `30` |
 | loadBalancer                  | Deploy a Load Balancer allowing access to the Forseti server ['none', 'internal', 'external'] | `none` |
 | networkPolicyEnable           | Enable pod network policy to limit the connectivty to the server. | `false` |
 | networkPolicyIngressCidr      | A list of CIDR's from which to allow communication to the server.  This is only relevant for client connectivity from outside the Kubernetes cluster. | `[]` |
