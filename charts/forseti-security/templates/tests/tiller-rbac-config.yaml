@@ -39,6 +39,6 @@ kind: ClusterRole
 metadata:
   name: tiller-admin
 rules:
-- apiGroups: ["", "extensions", "apps", "batch/v1beta1", "batch", "networking.k8s.io"]
+- apiGroups: ["", "extensions", "apps", "batch/v1beta1", "batch", "networking.k8s.io", "rbac.authorization.k8s.io"]
   resources: ["*"]
   verbs: ["*"]
