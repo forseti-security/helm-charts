@@ -16,7 +16,7 @@
 cloudsqlConnection: ""
 
 # configValidator sets whether or not to deploy config-validator
-configValidator: true
+configValidator: false
 
 # configValidatorImage is the container image used by the config-validator
 configValidatorImage: gcr.io/forseti-containers/config-validator
