@@ -60,7 +60,7 @@ containers:
     mountPath: /etc/git-secret/
 {{- end }}
 - name: kube-proxy
-  image: bitnami/kubectl:latest
+  image: mirror.gcr.io/bitnami/kubectl:latest
   args:
   - proxy
   - --certificate-authority=/var/run/secrets/kubernetes.io/serviceaccount/ca.crt
