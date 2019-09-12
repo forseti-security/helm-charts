@@ -12,19 +12,15 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: {{ .Release.Name }}-server
-spec:
-  selector:
-    matchLabels:
-      component: forseti-server
-  replicas: 1
-  template:
-    metadata:
-      labels:
-        component: forseti-server
-        chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
-    spec:
-{{- include "spec.pod.server" . | indent 6 }}
+{{ define "spec.container.cloudsqlproxy" }}
+- name: cloudsql-proxy
+  image: gcr.io/cloudsql-docker/gce-proxy:latest
+  command: ["/cloud_sql_proxy", "-instances={{ .Values.cloudsqlConnection }}=tcp:3306", "-credential_file=/var/secrets/google/key.json"]
+  securityContext:
+    runAsUser: 2 
+    allowPrivilegeEscalation: false
+  volumeMounts:
+  - name: google-cloud-key
+    mountPath: /var/secrets/google
+    readOnly: true
+{{ end -}}

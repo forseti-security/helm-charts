@@ -12,19 +12,26 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: {{ .Release.Name }}-server
-spec:
-  selector:
-    matchLabels:
-      component: forseti-server
-  replicas: 1
-  template:
-    metadata:
-      labels:
-        component: forseti-server
-        chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
-    spec:
-{{- include "spec.pod.server" . | indent 6 }}
+{{- define "spec.pod.server" }}
+containers:
+{{- include "spec.container.server" . }}
+{{- if .Values.production }}
+{{- include "spec.container.cloudsqlproxy" . }}
+{{- else }}
+{{- include "spec.container.sql" . }}
+{{ end }}
+securityContext:
+  runAsUser: 1000
+  fsGroup: 65532
+volumes:
+- name: google-cloud-key
+  secret:
+    secretName: {{ .Release.Name }}-server-credentials
+- name: forseti-server-config-volume
+  configMap:
+    name: {{ .Release.Name }}-server-conf
+{{- if not .Values.production }}
+- name: mysql-disk
+  emptyDir: {}
+{{ end }}
+{{- end }}
