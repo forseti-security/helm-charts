@@ -12,19 +12,18 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-apiVersion: apps/v1
-kind: Deployment
+{{ if and (.Values.networkPolicyEnable) (.Values.configValidator) }}
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
 metadata:
-  name: {{ .Release.Name }}-server
+  name: {{ .Release.Name }}-config-validator-deny-ingress
+  labels:
+    chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+    component: config-validator
 spec:
-  selector:
+  podSelector:
     matchLabels:
       component: forseti-server
-  replicas: 1
-  template:
-    metadata:
-      labels:
-        component: forseti-server
-        chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
-    spec:
-{{- include "spec.pod.server" . | indent 6 }}
+  policyTypes:
+  - Ingress
+{{ end }}

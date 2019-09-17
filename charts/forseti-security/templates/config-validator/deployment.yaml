@@ -11,20 +11,22 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
+{{- if .Values.configValidator }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Release.Name }}-server
+  name: {{ .Release.Name }}-config-validator
 spec:
   selector:
     matchLabels:
-      component: forseti-server
+      component: config-validator
   replicas: 1
   template:
     metadata:
       labels:
-        component: forseti-server
+        component: config-validator
         chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
     spec:
-{{- include "spec.pod.server" . | indent 6 }}
+      serviceAccountName: pod-deleter
+{{- include "spec.pod.configValidator" . | indent 6 }}
+{{- end }}
