@@ -49,7 +49,7 @@ orchestratorImage: "gcr.io/forseti-containers/forseti"
 # orchestratorImageTag is the tag for the orchestrator container image.
 orchestratorImageTag: "v2.20.0"
 
-# orchestratorWorkloadIdentity is the GCP IAM Service account for the Forseti client/orchestrator.  
+# orchestratorWorkloadIdentity is the GCP IAM Service account for the Forseti client/orchestrator.
 # Setting this assumes that workloadIdentity is configured for the GKE cluster.
 orhcestratorWorkloadIdentity: ""
 
@@ -88,7 +88,7 @@ serverLogLevel: info
 # 2 hours
 forsetiRunFrequency: "0 */2 * * *"
 
-# serverWorkloadIdentity is the GCP IAM Service account for the Forseti server.  
+# serverWorkloadIdentity is the GCP IAM Service account for the Forseti server.
 # Setting this assumes that the workload identity is configured for the GKE cluster.
 serverWorkloadIdentity: ""
 
