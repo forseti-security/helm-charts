@@ -19,7 +19,7 @@ initContainers:
   - -repo={{ .Values.policyLibraryRepositoryURL }}
   - -branch={{ .Values.policyLibraryRepositoryBranch }}
   - -one-time
-  - -ssh={{ .Values.gitSyncSSH }}
+  - -ssh=true
   - -ssh-known-hosts=false
   securityContext:
     runAsUser: 65533
@@ -28,7 +28,7 @@ initContainers:
   volumeMounts:
   - name: policy-library
     mountPath: /tmp/git/
-{{- if .Values.gitSyncSSH }}
+{{- if .Values.gitSyncPrivateSSHKey }}
   - name: git-sync-ssh-key
     mountPath: /etc/git-secret/
 {{- end }}
@@ -41,7 +41,7 @@ containers:
   - -wait={{ .Values.gitSyncWait }}
   - -webhook-url=http://localhost:8001/api/v1/namespaces/{{ .Release.Namespace }}/pods/$(POD_NAME)
   - -webhook-method=DELETE
-  - -ssh={{ .Values.gitSyncSSH }}
+  - -ssh=true
   - -ssh-known-hosts=false
   env:
   - name: POD_NAME
@@ -55,7 +55,7 @@ containers:
   volumeMounts:
   - name: policy-library
     mountPath: /tmp/git/
-{{- if .Values.gitSyncSSH }}
+{{- if .Values.gitSyncPrivateSSHKey }}
   - name: git-sync-ssh-key
     mountPath: /etc/git-secret/
 {{- end }}
@@ -89,7 +89,7 @@ volumes:
   emptyDir: {
       medium: "Memory"
   }
-{{- if .Values.gitSyncSSH }}
+{{- if .Values.gitSyncPrivateSSHKey }}
 - name: git-sync-ssh-key
   secret: 
     secretName: git-sync-ssh-key

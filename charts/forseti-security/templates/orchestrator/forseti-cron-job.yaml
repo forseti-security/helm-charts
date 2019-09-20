@@ -30,6 +30,7 @@ spec:
             component: forseti-orchestrator
             chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
         spec:
+          serviceAccountName: forseti-orchestrator
           containers:
           - name: {{ .Release.Name }}-orchestrator
             image: "{{ .Values.orchestratorImage }}:{{ .Values.orchestratorImageTag | default .Chart.AppVersion }}"
@@ -41,16 +42,8 @@ spec:
             env:
             - name: FORSETI_HOME
               value: /forseti-security/
-            volumeMounts:
-            - name: google-cloud-key
-              mountPath: /var/secrets/google
-              readOnly: true
             securityContext:
               runAsUser: 1000
-          volumes:
-          - name: google-cloud-key
-            secret:
-              secretName: {{ .Release.Name }}-orchestrator-credentials
           restartPolicy: Never
           schedulerName: default-scheduler
       completions: 1

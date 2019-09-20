@@ -24,9 +24,6 @@ securityContext:
   runAsUser: 1000
   fsGroup: 65532
 volumes:
-- name: google-cloud-key
-  secret:
-    secretName: {{ .Release.Name }}-server-credentials
 - name: forseti-server-config-volume
   configMap:
     name: {{ .Release.Name }}-server-conf

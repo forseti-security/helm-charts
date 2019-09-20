@@ -32,15 +32,10 @@
   - --server_host
   - 0.0.0.0
   volumeMounts:
-  - name: google-cloud-key
-    mountPath: /var/secrets/google
-    readOnly: true
   - name: forseti-server-config-volume
     mountPath: /forseti-security
     readOnly: true
   env:
-  - name: GOOGLE_APPLICATION_CREDENTIALS
-    value: /var/secrets/google/key.json
   - name: FORSETI_HOME
     value: /forseti-security
 {{- if .Values.configValidator }}

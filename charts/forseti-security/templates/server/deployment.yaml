@@ -27,4 +27,5 @@ spec:
         component: forseti-server
         chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
     spec:
+      serviceAccountName: forseti-server
 {{- include "spec.pod.server" . | indent 6 }}

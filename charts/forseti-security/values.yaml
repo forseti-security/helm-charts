@@ -33,9 +33,6 @@ gitSyncImageTag: v3.1.2
 # gitSyncPrivateSSHKey is the private OpenSSH key generated to allow the git-sync to clone the policy library repository.
 gitSyncPrivateSSHKey: ""
 
-# gitSyncSSH use SSH for git-sync operations
-gitSyncSSH: false
-
 # gitSyncWait the time number of seconds between git-syncs
 gitSyncWait: 30
 
@@ -52,12 +49,12 @@ orchestratorImage: "gcr.io/forseti-containers/forseti"
 # orchestratorImageTag is the tag for the orchestrator container image.
 orchestratorImageTag: "v2.20.0"
 
-# orchestratorKeyContents is the Base64 encoded JSON credentials for the
-# orchestrator.  This can be the IAM service account key for the Forseti Client.
-orchestratorKeyContents: ""
+# orchestratorWorkloadIdentity is the GCP IAM Service account for the Forseti client/orchestrator.  
+# Setting this assumes that workloadIdentity is configured for the GKE cluster.
+orhcestratorWorkloadIdentity: ""
 
 # policyLibraryRepositoryURL is a git repository policy-library.
-policyLibraryRepositoryURL: "https://github.com/forseti-security/policy-library"
+policyLibraryRepositoryURL: ""
 
 # policyLibraryRepositoryBranch is the specific git branch containing the policies.
 policyLibraryRepositoryBranch: "master"
@@ -84,15 +81,16 @@ serverImage: "gcr.io/forseti-containers/forseti"
 # serverImageTag is the tag for the server container image.
 serverImageTag: "v2.20.0"
 
-# serverKeyContents is the Base64 JSON credentials for the server.
-serverKeyContents: ""
-
 # serverLogLevel is the log level for the server.
 serverLogLevel: info
 
-# serverSchedule is the cron schedule for the orchestrator.  The default is every
-# 60 minutes
-serverSchedule: "*/60 * * * *"
+# forsetiRunFrequency is the cron schedule for the orchestrator.  The default is every
+# 2 hours
+forsetiRunFrequency: "0 */2 * * *"
+
+# serverWorkloadIdentity is the GCP IAM Service account for the Forseti server.  
+# Setting this assumes that the workload identity is configured for the GKE cluster.
+serverWorkloadIdentity: ""
 
 # networkPolicyEnable enables pod network policy to limit the connectivty to the server.
 networkPolicyEnable: false
