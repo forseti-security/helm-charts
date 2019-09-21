@@ -21,7 +21,7 @@ metadata:
     chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
     component: forseti-orchestrator
 spec:
-  schedule: "{{ .Values.serverSchedule }}"
+  schedule: "{{ .Values.forsetiRunFrequency }}"
   jobTemplate:
     spec:
       template:
