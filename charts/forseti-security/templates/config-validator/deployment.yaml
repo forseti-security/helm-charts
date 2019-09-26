@@ -11,19 +11,22 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
-apiVersion: v1
-description: A Helm chart for Forseti
-name: forseti-security
-version: 1.2.0
-appVersion: 2.21.0
-home: https://forsetisecurity.org/
-icon: https://forsetisecurity.org/images/site/logo/blue-logo-trans.png
-sources:
-- https://github.com/forseti-security/forseti-security
-- https://gcr.io/forseti-containers/forseti:v2.21.0
-maintainers:
-- name: kevensen
-  email: kdevensen@forsetisecurity.org
-- name: hshin-g
-  email: shinhannah@forsetisecurity.org
+{{- if .Values.configValidator }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-config-validator
+spec:
+  selector:
+    matchLabels:
+      component: config-validator
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        component: config-validator
+        chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+    spec:
+      serviceAccountName: pod-deleter
+{{- include "spec.pod.configValidator" . | indent 6 }}
+{{- end }}

@@ -15,6 +15,30 @@
 # cloudsqlConnection is the connection to the cloudsql instance
 cloudsqlConnection: ""
 
+# configValidator sets whether or not to deploy config-validator
+configValidator: false
+
+# configValidatorImage is the container image used by the config-validator
+configValidatorImage: gcr.io/forseti-containers/config-validator
+
+# configValidatorImageTag is the tag for the config-validator image.
+configValidatorImageTag: latest
+
+# gitSyncImage is the container image used by the config-validator git-sync side-car
+gitSyncImage: gcr.io/google-containers/git-sync
+
+# gitSyncImageTag is the container image tag used by the config-validator git-sync side-car
+gitSyncImageTag: v3.1.2
+
+# gitSyncPrivateSSHKey is the private OpenSSH key generated to allow the git-sync to clone the policy library repository.
+gitSyncPrivateSSHKey: ""
+
+# gitSyncSSH use SSH for git-sync operations
+gitSyncSSH: false
+
+# gitSyncWait the time number of seconds between git-syncs
+gitSyncWait: 30
+
 # loadBalancer is the type of load balancer to deploy for the forseti-server
 # if desired: none, external, internal
 loadBalancer: none
@@ -26,11 +50,17 @@ orchestratorDeploy: true
 orchestratorImage: "gcr.io/forseti-containers/forseti"
 
 # orchestratorImageTag is the tag for the orchestrator container image.
-orchestratorImageTag: "v2.19.1"
+orchestratorImageTag: "v2.21.0"
 
 # orchestratorKeyContents is the Base64 encoded JSON credentials for the
 # orchestrator.  This can be the IAM service account key for the Forseti Client.
 orchestratorKeyContents: ""
+
+# policyLibraryRepositoryURL is a git repository policy-library.
+policyLibraryRepositoryURL: "https://github.com/forseti-security/policy-library"
+
+# policyLibraryRepositoryBranch is the specific git branch containing the policies.
+policyLibraryRepositoryBranch: "master"
 
 # rulesBucket is the GCS bucket containing the rules.  Often this is the same as the
 # serverBucket.  Ommit the "gs://".
@@ -52,7 +82,7 @@ serverConfigContents: ""
 serverImage: "gcr.io/forseti-containers/forseti"
 
 # serverImageTag is the tag for the server container image.
-serverImageTag: "v2.19.1"
+serverImageTag: "v2.21.0"
 
 # serverKeyContents is the Base64 JSON credentials for the server.
 serverKeyContents: ""

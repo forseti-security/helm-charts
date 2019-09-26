@@ -12,18 +12,21 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-apiVersion: v1
-description: A Helm chart for Forseti
-name: forseti-security
-version: 1.2.0
-appVersion: 2.21.0
-home: https://forsetisecurity.org/
-icon: https://forsetisecurity.org/images/site/logo/blue-logo-trans.png
-sources:
-- https://github.com/forseti-security/forseti-security
-- https://gcr.io/forseti-containers/forseti:v2.21.0
-maintainers:
-- name: kevensen
-  email: kdevensen@forsetisecurity.org
-- name: hshin-g
-  email: shinhannah@forsetisecurity.org
+{{ define "spec.container.sql" }}
+- name: sql
+  image: mysql:5.7
+  securityContext:
+    runAsUser: 999
+    runAsGroup: 999
+    fsGroup: 999
+  env:
+  - name: MYSQL_ALLOW_EMPTY_PASSWORD
+    value: "1"
+  - name: MYSQL_DATABASE
+    value: forseti_security
+  ports:
+  - containerPort: 3306
+  volumeMounts:
+  - name: mysql-disk
+    mountPath: /var/lib/mysql
+{{ end -}}

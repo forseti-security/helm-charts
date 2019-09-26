@@ -1,0 +1,99 @@
+# Copyright 2019 The Forseti Security Authors. All rights reserved.
+#
+# Licensed under the Apache License, Versisn 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+{{- define "spec.pod.configValidator" }}
+initContainers:
+- name: git-sync-init
+  image: "{{ .Values.gitSyncImage }}:{{ .Values.gitSyncImageTag }}"
+  args:
+  - -repo={{ .Values.policyLibraryRepositoryURL }}
+  - -branch={{ .Values.policyLibraryRepositoryBranch }}
+  - -dest=policy-library
+  - -one-time
+  - -ssh={{ .Values.gitSyncSSH }}
+  - -ssh-known-hosts=false
+  securityContext:
+    runAsUser: 65533
+    runAsGroup: 65533
+    fsGroup: 65533
+  volumeMounts:
+  - name: policy-library
+    mountPath: /tmp/git/
+{{- if .Values.gitSyncSSH }}
+  - name: git-sync-ssh-key
+    mountPath: /etc/git-secret/
+{{- end }}
+containers:
+- name: git-sync
+  image: "{{ .Values.gitSyncImage }}:{{ .Values.gitSyncImageTag }}"
+  args:
+  - -repo={{ .Values.policyLibraryRepositoryURL }}
+  - -branch={{ .Values.policyLibraryRepositoryBranch }}
+  - -dest=policy-library
+  - -wait={{ .Values.gitSyncWait }}
+  - -webhook-url=http://localhost:8001/api/v1/namespaces/{{ .Release.Namespace }}/pods/$(POD_NAME)
+  - -webhook-method=DELETE
+  - -ssh={{ .Values.gitSyncSSH }}
+  - -ssh-known-hosts=false
+  env:
+  - name: POD_NAME
+    valueFrom:
+      fieldRef:
+        fieldPath: metadata.name
+  securityContext:
+    runAsUser: 65533
+    runAsGroup: 65533
+    fsGroup: 65533
+  volumeMounts:
+  - name: policy-library
+    mountPath: /tmp/git/
+{{- if .Values.gitSyncSSH }}
+  - name: git-sync-ssh-key
+    mountPath: /etc/git-secret/
+{{- end }}
+- name: kube-proxy
+  image: mirror.gcr.io/bitnami/kubectl:latest
+  args:
+  - proxy
+  - --certificate-authority=/var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+- name: config-validator
+  image: "{{ .Values.configValidatorImage }}:{{ .Values.configValidatorImageTag }}"
+  # -policyPath        https://github.com/forseti-security/policy-library/tree/master/policies
+  # -policyLibraryPath https://github.com/forseti-security/policy-library/tree/master/lib
+  args: ["-policyPath", "/policy-library/policies", "-policyLibraryPath", "/policy-library/lib", "-port", "50052", "-alsologtostderr"]
+  ports:
+  - containerPort: 50052
+  volumeMounts:
+  - name: policy-library
+    mountPath: /policy-library/policies
+    subPath: policy-library/policies
+    readOnly: true
+  - name: policy-library
+    mountPath: /policy-library/lib
+    subPath: policy-library/lib
+    readOnly: true
+securityContext:
+  runAsUser: 65532
+  runAsGroup: 65532
+  fsGroup: 65533
+volumes:
+- name: policy-library
+  emptyDir: {
+      medium: "Memory"
+  }
+{{- if .Values.gitSyncSSH }}
+- name: git-sync-ssh-key
+  secret: 
+    secretName: git-sync-ssh-key
+{{- end }}
+{{- end }}

@@ -12,18 +12,26 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-apiVersion: v1
-description: A Helm chart for Forseti
-name: forseti-security
-version: 1.2.0
-appVersion: 2.21.0
-home: https://forsetisecurity.org/
-icon: https://forsetisecurity.org/images/site/logo/blue-logo-trans.png
-sources:
-- https://github.com/forseti-security/forseti-security
-- https://gcr.io/forseti-containers/forseti:v2.21.0
-maintainers:
-- name: kevensen
-  email: kdevensen@forsetisecurity.org
-- name: hshin-g
-  email: shinhannah@forsetisecurity.org
+{{- define "spec.pod.server" }}
+containers:
+{{- include "spec.container.server" . }}
+{{- if .Values.production }}
+{{- include "spec.container.cloudsqlproxy" . }}
+{{- else }}
+{{- include "spec.container.sql" . }}
+{{ end }}
+securityContext:
+  runAsUser: 1000
+  fsGroup: 65532
+volumes:
+- name: google-cloud-key
+  secret:
+    secretName: {{ .Release.Name }}-server-credentials
+- name: forseti-server-config-volume
+  configMap:
+    name: {{ .Release.Name }}-server-conf
+{{- if not .Values.production }}
+- name: mysql-disk
+  emptyDir: {}
+{{ end }}
+{{- end }}

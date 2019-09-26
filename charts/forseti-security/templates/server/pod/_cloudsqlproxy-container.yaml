@@ -12,18 +12,15 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-apiVersion: v1
-description: A Helm chart for Forseti
-name: forseti-security
-version: 1.2.0
-appVersion: 2.21.0
-home: https://forsetisecurity.org/
-icon: https://forsetisecurity.org/images/site/logo/blue-logo-trans.png
-sources:
-- https://github.com/forseti-security/forseti-security
-- https://gcr.io/forseti-containers/forseti:v2.21.0
-maintainers:
-- name: kevensen
-  email: kdevensen@forsetisecurity.org
-- name: hshin-g
-  email: shinhannah@forsetisecurity.org
+{{ define "spec.container.cloudsqlproxy" }}
+- name: cloudsql-proxy
+  image: gcr.io/cloudsql-docker/gce-proxy:latest
+  command: ["/cloud_sql_proxy", "-instances={{ .Values.cloudsqlConnection }}=tcp:3306", "-credential_file=/var/secrets/google/key.json"]
+  securityContext:
+    runAsUser: 2 
+    allowPrivilegeEscalation: false
+  volumeMounts:
+  - name: google-cloud-key
+    mountPath: /var/secrets/google
+    readOnly: true
+{{ end -}}
