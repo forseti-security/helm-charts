@@ -18,6 +18,7 @@ initContainers:
   args:
   - -repo={{ .Values.policyLibraryRepositoryURL }}
   - -branch={{ .Values.policyLibraryRepositoryBranch }}
+  - -dest=policy-library
   - -one-time
   - -ssh=true
   - -ssh-known-hosts=false
@@ -38,6 +39,7 @@ containers:
   args:
   - -repo={{ .Values.policyLibraryRepositoryURL }}
   - -branch={{ .Values.policyLibraryRepositoryBranch }}
+  - -dest=policy-library
   - -wait={{ .Values.gitSyncWait }}
   - -webhook-url=http://localhost:8001/api/v1/namespaces/{{ .Release.Namespace }}/pods/$(POD_NAME)
   - -webhook-method=DELETE
