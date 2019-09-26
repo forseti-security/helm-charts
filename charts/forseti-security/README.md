@@ -148,7 +148,6 @@ helm install forseti-security/forseti-security \
 | configValidator               | This sets whether or not to deploy config-validator       | `true` |
 | configValidatorImage          | This is the container image used by the config-validator  | `gcr.io/forseti-containers/config-validator` |
 | configValidatorImageTag       | This is the tag for the config-validator image.           | `latest` |
-| forsetiRunFrequency           | This is the cron schedule for the orchestrator.  The default is every 2 hours. | `0 */2 * * *` |
 | gitSyncImage                  | This is the container image used by the config-validator git-sync side-car | `gcr.io/google-containers/git-sync` |
 | gitSyncImageTag               | This is the container image tag used by the config-validator git-sync side-car | `v3.1.2` |
 | gitSyncPrivateSSHKey          | This is the private OpenSSH key generated to allow the git-sync to clone the policy library repository. | `nil` |
@@ -170,6 +169,7 @@ helm install forseti-security/forseti-security \
 | serverImage                   | The container image used by the server.                   | `gcr.io/forseti-security-containers/forseti`|
 | serverImageTag                | The tag for the server container image.              | `v2.18.0` |
 | serverLogLevel                | The log level for the server.                             | `info` |
+| serverSchedule                | The cron schedule for the server.  The default is every 60 minute.    | `"*/60 * * * *"` Every 60 minutes|
 | serverWorkloadIdentity        | The GCP IAM Service account for the Forseti server.       | `nil` |
 
 **NOTE:** Bolded parameters denotes a required value.

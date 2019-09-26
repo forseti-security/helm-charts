@@ -84,9 +84,9 @@ serverImageTag: "v2.20.0"
 # serverLogLevel is the log level for the server.
 serverLogLevel: info
 
-# forsetiRunFrequency is the cron schedule for the orchestrator.  The default is every
-# 2 hours
-forsetiRunFrequency: "0 */2 * * *"
+# serverSchedule is the cron schedule for the orchestrator.  The default is every
+# 60 minutes
+serverSchedule: "*/60 * * * *"
 
 # serverWorkloadIdentity is the GCP IAM Service account for the Forseti server.
 # Setting this assumes that the workload identity is configured for the GKE cluster.
