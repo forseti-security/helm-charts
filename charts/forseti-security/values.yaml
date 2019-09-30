@@ -100,5 +100,9 @@ networkPolicyEnable: false
 # from outside the Kubernetes cluster.
 networkPolicyIngressCidr: []
 
+# nodeSelectors is a list of strings in the form of label=value describing
+# on which nodes to run the Forseti on-GKE pods.
+nodeSelectors: []
+
 # production sets whether or not to deploy in a production configuration.
 production: false

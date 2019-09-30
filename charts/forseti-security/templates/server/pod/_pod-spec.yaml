@@ -13,6 +13,13 @@
 # limitations under the License.
 
 {{- define "spec.pod.server" }}
+{{- if .Values.nodeSelectors }}
+nodeSelector:
+{{- end }}
+{{- range .Values.nodeSelectors }}
+{{ $split_selector := splitList "=" . }}
+  {{ index $split_selector 0 }}: {{ index $split_selector 1 }}
+{{- end }}
 containers:
 {{- include "spec.container.server" . }}
 {{- if .Values.production }}
