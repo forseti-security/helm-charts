@@ -145,7 +145,7 @@ helm install forseti-security/forseti-security \
 | Parameter                                | Description                                    | Default|
 | ----------------------------- | ------------------------------------ |------------------------------------------- |
 | **cloudsqlConnection**        | This is the connection to the CloudSQL instance.          | `nil`|
-| configValidator               | This sets whether or not to deploy config-validator       | `true` |
+| configValidator               | This sets whether or not to deploy config-validator       | `false` |
 | configValidatorImage          | This is the container image used by the config-validator  | `gcr.io/forseti-containers/config-validator` |
 | configValidatorImageTag       | This is the tag for the config-validator image.           | `latest` |
 | gitSyncImage                  | This is the container image used by the config-validator git-sync side-car | `gcr.io/google-containers/git-sync` |
@@ -155,6 +155,7 @@ helm install forseti-security/forseti-security \
 | loadBalancer                  | Deploy a Load Balancer allowing access to the Forseti server ['none', 'internal', 'external'] | `none` |
 | networkPolicyEnable           | Enable pod network policy to limit the connectivty to the server. | `false` |
 | networkPolicyIngressCidr      | A list of CIDR's from which to allow communication to the server.  This is only relevant for client connectivity from outside the Kubernetes cluster. | `[]` |
+| nodeSelectors                 | A list of strings in the form of label=value describing on which nodes to run the Forseti on-GKE pods. | `nil` |
 | orchestratorDeploy            | Whether or not to deploy the orchestrator.                | `true`|
 | orchestratorImage             | The container image used by the orchestrator.             | `gcr.io/forseti-security-containers/forseti`|
 | orchestratorImageTag          | The tag for the orchestrator container image.              | `v2.18.0` |
