@@ -32,7 +32,7 @@ steps:
 
 - name: 'gcr.io/kubernetes-charts-ci/test-image:v3.3.2'
   id: Lint and test forseti-security charts
-  args: ["ct", "lint-and-install", "--remote", "upstream"]
+  args: ["ct", "lint-and-install", "--remote", "upstream", "--charts", "charts/forseti-security,charts/config-validator"]
   env: ["CLOUDSDK_CONTAINER_USE_APPLICATION_DEFAULT_CREDENTIALS=true"]
 
 substitutions:
