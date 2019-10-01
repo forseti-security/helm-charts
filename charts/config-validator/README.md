@@ -70,18 +70,16 @@ helm fetch forseti-security/config-validator
 Next, render the template and pipe it into `kubectl`. 
 
 ```bash
-helm template [...] | kubectl apply -f -
+helm template config-validator-[VERSION].tgz | kubectl apply -f -
 ```
-Also note that if running on *MacOS*, the `-w 0` flag is not supported for the `base64` command and should be ommitted from the above command.
 
 #### Uninstalling
 
 Similar to installing or upgrading, the Config Validator components can be uninstalled leveraging Helm's `template` sub-command.
 
 ```bash
-helm template [...] | kubectl delete -f -
+helm template config-validator-[VERSION].tgz | kubectl delete -f -
 ```
-Also note that if running on *MacOS*, the `-w 0` flag is not supported for the `base64` command and should be ommitted from the above command.
 
 ## Configuration
 
@@ -115,7 +113,7 @@ helm install forseti-security/config-validator \
 | ----------------------------- | ------------------------------------ |------------------------------------------- |
 | image          | This is the container image used by the config-validator  | `gcr.io/forseti-containers/config-validator` |
 | imageTag       | This is the tag for the config-validator image.           | `latest` |
-| gitSync.image                  | This is the container image used by the config-validator git-sync side-car | `gcr.io/google-containers/git-sync` |
+| gitSync.image  | This is the container image used by the config-validator git-sync side-car | `gcr.io/google-containers/git-sync` |
 | gitSync.imageTag               | This is the container image tag used by the config-validator git-sync side-car | `v3.1.2` |
 | gitSync.privateSSHKey          | This is the private OpenSSH key generated to allow the git-sync to clone the policy library repository over SSH. Omitting this value will sync the policy-library over HTTPS. | `nil` |
 | gitSync.wait                   | This is the time number of seconds between git-syncs      | `30` |

@@ -15,5 +15,6 @@
 dependencies:
 - name: config-validator
   repository: "https://forseti-security-charts.storage.googleapis.com/release/"
+  version: 0.0.1
   alias: configValidator
   condition: configValidator.enabled

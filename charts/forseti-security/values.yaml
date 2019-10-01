@@ -90,7 +90,6 @@ configValidator:
   # if desired: none, external, internal
   loadBalancer: none
 
-  
   networkPolicy:
     # networkPolicy.enabled enables pod network policy to limit the connectivty to the server.
     enabled: false
