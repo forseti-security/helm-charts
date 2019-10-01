@@ -12,93 +12,126 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# cloudsqlConnection is the connection to the cloudsql instance
-cloudsqlConnection: ""
 
-# configValidator sets whether or not to deploy config-validator
-configValidator: false
+## forseti-server ##
+server:
+  # server.cloudsqlConnection is the connection to the cloudsql instance
+  cloudsqlConnection: ""
 
-# configValidatorImage is the container image used by the config-validator
-configValidatorImage: gcr.io/forseti-containers/config-validator
+  config:
+    # server.config.bucket is the bucket containing the server configurations
+    bucket: ""
 
-# configValidatorImageTag is the tag for the config-validator image.
-configValidatorImageTag: latest
+    # server.bucketConfigFolder is the folder in the server bucket containing the server configs.
+    bucketFolder: "configs"
 
-# gitSyncImage is the container image used by the config-validator git-sync side-car
-gitSyncImage: gcr.io/google-containers/git-sync
+    # server.contents is the Base64 encoded contents of the forseti_conf_server.yaml file.
+    contents: ""
 
-# gitSyncImageTag is the container image tag used by the config-validator git-sync side-car
-gitSyncImageTag: v3.1.2
 
-# gitSyncPrivateSSHKey is the private OpenSSH key generated to allow the git-sync to clone the policy library repository.
-gitSyncPrivateSSHKey: ""
+  # server.loadBalancer is the type of load balancer to deploy for the
+  # forseti-server if desired: none, external, internal
+  loadBalancer: none
 
-# gitSyncWait the time number of seconds between git-syncs
-gitSyncWait: 30
+  rules:
+    # server.rules.bucket is the GCS bucket containing the rules.  Often this is the same as the
+    # serverBucket.  Ommit the "gs://".
+    bucket: ""
 
-# loadBalancer is the type of load balancer to deploy for the forseti-server
-# if desired: none, external, internal
-loadBalancer: none
+    # server.rules.bucketFolder is the folder inside the rulesBucket containing all the rules.
+    bucketFolder: "rules"
 
-# orchestratorDeploy sets whether or not to deploy the orchestrator.
-orchestratorDeploy: true
+  # server.image is the container image used by the server
+  image: "gcr.io/forseti-containers/forseti"
 
-# orchestratorImage is the container image used by the Forseti Orchestrator
-orchestratorImage: "gcr.io/forseti-containers/forseti"
+  # server.imageTag is the tag for the server container image.
+  imageTag: "v2.21.0"
 
-# orchestratorImageTag is the tag for the orchestrator container image.
-orchestratorImageTag: "v2.21.0"
+  # serverLogLevel is the log level for the server.
+  logLevel: info
 
-# orchestratorWorkloadIdentity is the GCP IAM Service account for the Forseti client/orchestrator.
-# Setting this assumes that workloadIdentity is configured for the GKE cluster.
-orhcestratorWorkloadIdentity: ""
+  # server.workloadIdentity is the GCP IAM Service account for the Forseti server.
+  # Setting this assumes that the workload identity is configured for the GKE cluster.
+  workloadIdentity: ""
 
-# policyLibraryRepositoryURL is a git repository policy-library.
-policyLibraryRepositoryURL: ""
 
-# policyLibraryRepositoryBranch is the specific git branch containing the policies.
-policyLibraryRepositoryBranch: "master"
+## forseti-orchestrator ##
+orchestrator:
+  # orchestrator.enabled sets whether or not to deploy the orchestrator.
+  enabled: true
 
-# rulesBucket is the GCS bucket containing the rules.  Often this is the same as the
-# serverBucket.  Ommit the "gs://".
-rulesBucket: ""
+  # orchestrator.image is the container image used by the Forseti Orchestrator
+  image: "gcr.io/forseti-containers/forseti"
 
-# rulesBucketFolder is the folder inside the rulesBucket containing all the rules.
-rulesBucketFolder: "rules"
+  # orchestrator.imageTag is the tag for the orchestrator container image.
+  imageTag: "v2.21.0"
 
-# serverBucket is the bucket containing the server configurations
-serverBucket: ""
+  # runFrequency is the cron schedule for the orchestrator.  The default is every
+  # 60 minutes
+  runFrequency: "*/60 * * * *"
 
-# serverBucketConfigFolder is the folder in the server bucket containing the server configs.
-serverBucketConfigFolder: "configs"
+  # orchestratorWorkloadIdentity is the GCP IAM Service account for the Forseti client/orchestrator.
+  # Setting this assumes that workloadIdentity is configured for the GKE cluster.
+  workloadIdentity: ""
 
-# serverConfigContents is the Base64 encoded contents of the forseti_conf_server.yaml file.
-serverConfigContents: ""
 
-# serverImage is the container image used by the server
-serverImage: "gcr.io/forseti-containers/forseti"
+## config-validator ##
+configValidator:
+  # configValidator sets whether or not to deploy config-validator
+  enabled: false
 
-# serverImageTag is the tag for the server container image.
-serverImageTag: "v2.21.0"
+  # configValidatorImage is the container image used by the config-validator
+  image: gcr.io/forseti-containers/config-validator
 
-# serverLogLevel is the log level for the server.
-serverLogLevel: info
+  # configValidatorImageTag is the tag for the config-validator image.
+  imageTag: latest
 
-# serverSchedule is the cron schedule for the orchestrator.  The default is every
-# 60 minutes
-serverSchedule: "*/60 * * * *"
+  # loadBalancer is the type of load balancer to deploy for the config-validator
+  # if desired: none, external, internal
+  loadBalancer: none
 
-# serverWorkloadIdentity is the GCP IAM Service account for the Forseti server.
-# Setting this assumes that the workload identity is configured for the GKE cluster.
-serverWorkloadIdentity: ""
+  
+  networkPolicy:
+    # networkPolicy.enabled enables pod network policy to limit the connectivty to the server.
+    enabled: false
 
-# networkPolicyEnable enables pod network policy to limit the connectivty to the server.
-networkPolicyEnable: false
+    # networkPolicyIngressCidr is a list of CIDR's from which to allow
+    # communication to the server.  This is only relevant for client connectivity
+    # from outside the Kubernetes cluster.
+    ingressCidr: []
 
-# networkPolicyIngressCidr is a list of CIDR's from which to allow
-# communication to the server.  This is only relevant for client connectivity
-# from outside the Kubernetes cluster.
-networkPolicyIngressCidr: []
+  # nodeSelectors is a list of strings in the form of label=value describing
+  # on which nodes to run the Forseti on-GKE pods.
+  nodeSelectors: []
+
+  gitSync:
+    # gitSync.image is the container image used by the config-validator git-sync side-car
+    image: gcr.io/google-containers/git-sync
+
+    # gitSync.imageTag is the container image tag used by the config-validator git-sync side-car
+    imageTag: v3.1.2
+
+    # gitSync.privateSSHKey is the private OpenSSH key generated to allow the git-sync to clone the policy library repository.
+    privateSSHKey: ""
+
+    # gitSync.wait the time number of seconds between git-syncs
+    gitSyncWait: 30
+
+  policyLibrary:
+    # policyLibrary.repositoryURL is a git repository policy-library.
+    repositoryURL: ""
+
+    # policyLibraryRepositoryBranch is the specific git branch containing the policies.
+    repositoryBranch: "master"
+
+networkPolicy:
+  # networkPolicy.enable enables pod network policy to limit the connectivty to the server.
+  enabled: false
+
+  # networkPolicyIngressCidr is a list of CIDR's from which to allow
+  # communication to the server.  This is only relevant for client connectivity
+  # from outside the Kubernetes cluster.
+  ingressCidr: []
 
 # nodeSelectors is a list of strings in the form of label=value describing
 # on which nodes to run the Forseti on-GKE pods.

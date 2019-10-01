@@ -12,30 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  name: tiller
-  namespace: kube-system
----
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRoleBinding
-metadata:
-  name: tiller
-roleRef:
-  apiGroup: rbac.authorization.k8s.io
-  kind: ClusterRole
-  name: tiller-admin
-subjects:
-  - kind: ServiceAccount
-    name: tiller
-    namespace: kube-system
----
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRole
-metadata:
-  name: tiller-admin
-rules:
-- apiGroups: ["", "extensions", "apps", "batch/v1beta1", "batch", "networking.k8s.io", "rbac.authorization.k8s.io"]
-  resources: ["*"]
-  verbs: ["*"]
+dependencies:
+- name: config-validator
+  repository: "https://forseti-security-charts.storage.googleapis.com/release/"
+  alias: configValidator
+  condition: configValidator.enabled

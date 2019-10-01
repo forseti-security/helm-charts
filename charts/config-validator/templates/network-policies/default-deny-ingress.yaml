@@ -12,29 +12,18 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-{{ if and (.Values.networkPolicyEnable) (.Values.configValidator) }}
+{{ if and (.Values.networkPolicy.enable) }}
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: {{ .Release.Name }}-config-validator-allow-ingress
+  name: {{ .Release.Name }}-config-validator-deny-ingress
   labels:
     chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
     component: config-validator
 spec:
   podSelector:
     matchLabels:
-      component: config-validator
+      component: forseti-server
   policyTypes:
   - Ingress
-  ingress:
-  - from:
-    - podSelector:
-        matchLabels:
-          component: forseti-server
-    - podSelector:
-        matchLabels:
-          component: config-validator-test
-    ports:
-    - protocol: TCP
-      port: 50052
 {{ end }}

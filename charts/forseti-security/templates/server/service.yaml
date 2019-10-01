@@ -16,7 +16,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: {{ .Release.Name }}-server
-{{- if and (eq .Values.loadBalancer "internal") (.Values.production) }}
+{{- if and (eq .Values.server.loadBalancer "internal") (.Values.production) }}
   annotations:
     cloud.google.com/load-balancer-type: "Internal"
 {{- end }}
@@ -24,7 +24,7 @@ metadata:
     component: forseti-server
     chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
 spec:
-{{- if and (or (eq  .Values.loadBalancer "internal") (eq .Values.loadBalancer "external")) (.Values.production) }}
+{{- if and (or (eq  .Values.server.loadBalancer "internal") (eq .Values.server.loadBalancer "external")) (.Values.production) }}
   type: LoadBalancer
 {{- else }}
   type: ClusterIP

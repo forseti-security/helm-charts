@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-{{ if and (.Values.orchestratorDeploy) (.Values.production) }} 
+{{ if and (.Values.orchestrator.enabled) (.Values.production) }} 
 apiVersion: batch/v1beta1
 kind: CronJob
 metadata:
@@ -21,7 +21,7 @@ metadata:
     chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
     component: forseti-orchestrator
 spec:
-  schedule: "{{ .Values.serverSchedule  }}"
+  schedule: "{{ .Values.orchestrator.runFrequency }}"
   jobTemplate:
     spec:
       template:
@@ -40,7 +40,7 @@ spec:
 {{- end }}
           containers:
           - name: {{ .Release.Name }}-orchestrator
-            image: "{{ .Values.orchestratorImage }}:{{ .Values.orchestratorImageTag | default .Chart.AppVersion }}"
+            image: "{{ .Values.orchestrator.image }}:{{ .Values.orchestrator.imageTag | default .Chart.AppVersion }}"
             imagePullPolicy: Always
             args:
             - --run_client

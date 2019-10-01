@@ -17,7 +17,7 @@
   image: gcr.io/cloudsql-docker/gce-proxy:latest
   command: ["/cloud_sql_proxy"]
   args:
-  - -instances={{ .Values.cloudsqlConnection }}=tcp:3306
+  - -instances={{ .Values.server.cloudsqlConnection }}=tcp:3306
   securityContext:
     runAsUser: 2 
     allowPrivilegeEscalation: false

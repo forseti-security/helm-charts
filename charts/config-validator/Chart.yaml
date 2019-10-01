@@ -13,29 +13,17 @@
 # limitations under the License.
 
 apiVersion: v1
-kind: ServiceAccount
-metadata:
-  name: tiller
-  namespace: kube-system
----
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRoleBinding
-metadata:
-  name: tiller
-roleRef:
-  apiGroup: rbac.authorization.k8s.io
-  kind: ClusterRole
-  name: tiller-admin
-subjects:
-  - kind: ServiceAccount
-    name: tiller
-    namespace: kube-system
----
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRole
-metadata:
-  name: tiller-admin
-rules:
-- apiGroups: ["", "extensions", "apps", "batch/v1beta1", "batch", "networking.k8s.io", "rbac.authorization.k8s.io"]
-  resources: ["*"]
-  verbs: ["*"]
+description: A Helm chart for Forseti Config Validator
+name: config-validator
+version: 1.0.0
+appVersion: 1.0.0
+home: https://forsetisecurity.org/
+icon: https://forsetisecurity.org/images/site/logo/blue-logo-trans.png
+sources:
+- https://github.com/forseti-security/config-validator
+- https://gcr.io/forseti-containers/config-validator:latest
+maintainers:
+- name: kevensen
+  email: kdevensen@forsetisecurity.org
+- name: hshin-g
+  email: shinhannah@forsetisecurity.org
