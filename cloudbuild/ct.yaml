@@ -5,6 +5,6 @@ chart-dirs:
 chart-repos:
   - forseti-security=https://forseti-security-charts.storage.googleapis.com/release/
 charts:
-  - forseti-security
-  - config-validator
+  - charts/forseti-security
+  - charts/config-validator
 helm-extra-args: --timeout 600
