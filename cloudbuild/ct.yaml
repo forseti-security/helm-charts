@@ -1,7 +1,7 @@
 remote: upstream
 target-branch: master
 chart-dirs:
-  - charts
+  - /workspace/charts/
 chart-repos:
   - forseti-security=https://forseti-security-charts.storage.googleapis.com/release/
 helm-extra-args: --timeout 600
