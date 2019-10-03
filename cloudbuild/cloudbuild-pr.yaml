@@ -33,7 +33,7 @@ steps:
 - name: 'gcr.io/cloud-builders/docker'
   id: "ls -al"
   entrypoint: "ls"
-  args: [-al"]
+  args: ["-al"]
 
 - name: 'gcr.io/cloud-builders/docker'
   id: "pwd"
