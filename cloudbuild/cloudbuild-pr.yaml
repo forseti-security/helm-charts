@@ -32,13 +32,12 @@ steps:
 
 - name: 'gcr.io/cloud-builders/docker'
   id: "ls -al"
-  entrypoint: "/bin/bash"
-  args: ["ls", "-al"]
+  entrypoint: "ls"
+  args: [-al"]
 
 - name: 'gcr.io/cloud-builders/docker'
   id: "pwd"
-  entrypoint: "/bin/bash"
-  args: ["pwd"]
+  entrypoint: "pwd"
 
 - name: 'gcr.io/kubernetes-charts-ci/test-image:v3.3.2'
   id: Lint and test forseti-security charts
