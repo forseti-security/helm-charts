@@ -28,16 +28,16 @@ spec:
   - Ingress
   ingress:
   - from:
+    {{- range .Values.networkPolicy.ingressCidr }}
+    - ipBlock:
+        cidr: {{ . }}
+    {{- end }}
     - podSelector:
         matchLabels:
           component: forseti-orchestrator
     - podSelector:
         matchLabels:
           component: forseti-connection-test
-{{- range $cidr := .Values.networkPolicy.ingressCidr }}
-    - ipBlock:
-        cidr: {{ $cidr }}
-{{- end }}
     ports:
     - protocol: TCP
       port: 50051
