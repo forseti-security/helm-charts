@@ -50,7 +50,7 @@ orchestratorDeploy: true
 orchestratorImage: "gcr.io/forseti-containers/forseti"
 
 # orchestratorImageTag is the tag for the orchestrator container image.
-orchestratorImageTag: "v2.21.0"
+orchestratorImageTag: "v2.22.0"
 
 # orchestratorKeyContents is the Base64 encoded JSON credentials for the
 # orchestrator.  This can be the IAM service account key for the Forseti Client.
@@ -82,7 +82,7 @@ serverConfigContents: ""
 serverImage: "gcr.io/forseti-containers/forseti"
 
 # serverImageTag is the tag for the server container image.
-serverImageTag: "v2.21.0"
+serverImageTag: "v2.22.0"
 
 # serverKeyContents is the Base64 JSON credentials for the server.
 serverKeyContents: ""
