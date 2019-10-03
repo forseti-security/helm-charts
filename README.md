@@ -14,5 +14,5 @@ Please see each application's README.md in the charts/ directory for instruction
 
 | Application                          | Application Version | Compatible Chart Version |
 | -----------------                    | ------------------  | ---------------          |
-| [Forseti](./charts/forseti-security) | 2.18.0<br />2.19.0<br />2.19.1<br />2.20.0<br />2.21.0 | 1.0.0, 1.0.1<br />1.1.0<br />1.1.0<br />1.1.0<br />1.2.0 |
+| [Forseti](./charts/forseti-security) | 2.18.0<br />2.19.0<br />2.19.1<br />2.20.0<br />2.21.0<br />2.22.0 | 1.0.0, 1.0.1<br />1.1.0<br />1.1.0<br />1.1.0<br />1.2.0<br />1.3.0, 2.0.0 |
 | [Config Validator](./charts/config-validator) | latest | 0.0.1 |
