@@ -152,7 +152,7 @@ helm install forseti-security/forseti-security \
 | nodeSelectors                 | A list of strings in the form of label=value describing on which nodes to run the Forseti on-GKE pods. | `nil` |
 | orchestrator.enabled            | Whether or not to deploy the orchestrator.                | `true`|
 | orchestrator.image             | The container image used by the orchestrator.             | `gcr.io/forseti-security-containers/forseti`|
-| orchestrator.imageTag          | The tag for the orchestrator container image.              | `v2.18.0` |
+| orchestrator.imageTag          | The tag for the orchestrator container image.              | `v2.22.0` |
 | orhcestratorWorkloadIdentity  | the GCP IAM Service account for the Forseti client/orchestrator. | `nil` |
 | production                    | Deploy in a production configuration.                      | `false`|
 | server.rules.bucket                   | The GCS bucket containing the rules.  Often this is the same as the serverBucket.  Ommit the "gs://".| server.bucket |
@@ -161,7 +161,7 @@ helm install forseti-security/forseti-security \
 | server.BucketConfigFolder      | The folder in the server bucket containing the server configs. | `configs` |
 | **serverConfigContents**      | The Base64 encoded contents of the forseti_conf_server.yaml file.| `nil`|
 | serverImage                   | The container image used by the server.                   | `gcr.io/forseti-security-containers/forseti`|
-| serverImageTag                | The tag for the server container image.              | `v2.18.0` |
+| serverImageTag                | The tag for the server container image.              | `v2.22.0` |
 | serverLogLevel                | The log level for the server.                             | `info` |
 | serverSchedule                | The cron schedule for the server.  The default is every 60 minute.    | `"*/60 * * * *"` Every 60 minutes|
 | serverWorkloadIdentity        | The GCP IAM Service account for the Forseti server.       | `nil` |
