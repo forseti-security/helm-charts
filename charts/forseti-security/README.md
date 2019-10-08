@@ -146,6 +146,7 @@ helm install forseti-security/forseti-security \
 | ----------------------------- | ------------------------------------ |------------------------------------------- |
 | **server.cloudsqlConnection**        | This is the connection to the CloudSQL instance.          | `nil`|
 | configValidator.enabled               | This sets whether or not to deploy config-validator       | `false` |
+| server.cloudProfilerEnabled           | enables the forseti-server to send metrics to Cloud Profiler | `false` |
 | loadBalancer                  | Deploy a Load Balancer allowing access to the Forseti server ['none', 'internal', 'external'] | `none` |
 | networkPolicy.enabled           | Enable pod network policy to limit the connectivty to the server. | `false` |
 | networkPolicy.ingressCidr      | A list of CIDR's from which to allow communication to the server.  This is only relevant for client connectivity from outside the Kubernetes cluster. | `[]` |

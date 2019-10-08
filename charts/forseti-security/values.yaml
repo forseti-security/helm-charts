@@ -18,6 +18,9 @@ server:
   # server.cloudsqlConnection is the connection to the cloudsql instance
   cloudsqlConnection: ""
 
+  # server.cloudProfilerEnabled enables the forseti-server to send metrics to Cloud Profiler
+  cloudProfilerEnabled: false
+
   config:
     # server.config.bucket is the bucket containing the server configurations
     bucket: ""

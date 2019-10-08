@@ -31,6 +31,9 @@
   -  {{ .Values.server.logLevel | default "debug" }}
   - --server_host
   - 0.0.0.0
+{{- if .Values.server.cloudProfilerEnabled }}
+  - --enable_profiler
+{{- end }}
   volumeMounts:
   - name: forseti-server-config-volume
     mountPath: /forseti-security
