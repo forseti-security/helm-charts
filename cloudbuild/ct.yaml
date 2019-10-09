@@ -1,0 +1,10 @@
+remote: upstream
+target-branch: master
+chart-dirs:
+  - /workspace/charts/
+chart-repos:
+  - forseti-security=https://forseti-security-charts.storage.googleapis.com/release/
+charts:
+  - charts/forseti-security
+  - charts/config-validator
+helm-extra-args: --timeout 600

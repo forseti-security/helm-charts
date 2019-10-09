@@ -12,16 +12,18 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-{{ if .Values.orchestratorDeploy }}
-apiVersion: v1
-kind: Secret
+{{ if and (.Values.networkPolicy.enable) }}
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
 metadata:
-  name: {{ .Release.Name }}-orchestrator-credentials
+  name: {{ .Release.Name }}-config-validator-deny-ingress
   labels:
     chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
-    component: forseti-orchestrator
-type: Opaque
-data:
-  client_key.json: >
-    {{ .Values.orchestratorKeyContents }}
-{{end}}
+    component: config-validator
+spec:
+  podSelector:
+    matchLabels:
+      component: forseti-server
+  policyTypes:
+  - Ingress
+{{ end }}

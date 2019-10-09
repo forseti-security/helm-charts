@@ -25,6 +25,8 @@ spec:
     metadata:
       labels:
         component: forseti-server
+        configValidator: client
         chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
     spec:
+      serviceAccountName: forseti-server
 {{- include "spec.pod.server" . | indent 6 }}

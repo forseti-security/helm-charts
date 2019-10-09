@@ -13,13 +13,17 @@
 # limitations under the License.
 
 apiVersion: v1
-kind: Secret
-metadata:
-  name: {{ .Release.Name }}-server-credentials
-  labels:
-    chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
-    component: forseti-server
-type: Opaque
-data:
-  key.json: >
-    {{ .Values.serverKeyContents }}
+description: A Helm chart for Forseti Config Validator
+name: config-validator
+version: 0.0.1
+appVersion: 1.0.0
+home: https://forsetisecurity.org/
+icon: https://forsetisecurity.org/images/site/logo/blue-logo-trans.png
+sources:
+- https://github.com/forseti-security/config-validator
+- https://gcr.io/forseti-containers/config-validator:latest
+maintainers:
+- name: kevensen
+  email: kdevensen@forsetisecurity.org
+- name: hshin-g
+  email: shinhannah@forsetisecurity.org

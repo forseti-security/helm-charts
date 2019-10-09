@@ -15,12 +15,10 @@
 {{ define "spec.container.cloudsqlproxy" }}
 - name: cloudsql-proxy
   image: gcr.io/cloudsql-docker/gce-proxy:latest
-  command: ["/cloud_sql_proxy", "-instances={{ .Values.cloudsqlConnection }}=tcp:3306", "-credential_file=/var/secrets/google/key.json"]
+  command: ["/cloud_sql_proxy"]
+  args:
+  - -instances={{ .Values.server.cloudsqlConnection }}=tcp:3306
   securityContext:
     runAsUser: 2 
     allowPrivilegeEscalation: false
-  volumeMounts:
-  - name: google-cloud-key
-    mountPath: /var/secrets/google
-    readOnly: true
 {{ end -}}

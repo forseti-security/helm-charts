@@ -18,15 +18,13 @@ metadata:
   name: {{ .Release.Name }}-server-conf
   labels:
     chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
-    gcs_bucket: "{{ .Values.serverBucket }}"
-    gcs_object: "{{ .Values.serverBucketConfigFolder }}"
     component: forseti-server
 data:
   forseti_conf_server.yaml: |-
 {{ if .Values.production }}
-    {{- $decodedServerConfig := .Values.serverConfigContents | b64dec | nindent 4 }}
+    {{- $decodedServerConfig := .Values.server.config.contents | b64dec | nindent 4 }}
     {{- $rulesPathRegex := "(rules_path:\\s*)(.*)" }}
-    {{- $newRulesPath :=  printf "%s%s/%s" "rules_path: gs://" (.Values.rulesBucket | default .Values.serverBucket) .Values.rulesBucketFolder }}
+    {{- $newRulesPath :=  printf "%s%s/%s" "rules_path: gs://" (.Values.server.rules.bucket | default .Values.server.bucket) .Values.server.rules.bucketFolder }}
     {{- $updatedConfig := regexReplaceAll $rulesPathRegex $decodedServerConfig $newRulesPath }}
     {{- $updatedConfig }}
 {{ else }}
