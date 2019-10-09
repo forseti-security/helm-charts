@@ -13,7 +13,7 @@
 # limitations under the License.
 {{ define "spec.container.server" }}
 - name: forseti-server
-  image: "{{ .Values.serverImage }}:{{ .Values.serverImageTag | default .Chart.AppVersion }}"
+  image: "{{ .Values.server.image }}:{{ .Values.server.imageTag | default .Chart.AppVersion }}"
   imagePullPolicy: Always
   ports:
   - containerPort: 50051
@@ -28,19 +28,17 @@
   - {{ .Release.Name }}-server.{{ .Release.Namespace }}.svc.cluster.local
 {{- end }}
   - --log_level
-  -  {{ .Values.serverLogLevel | default "debug" }}
+  -  {{ .Values.server.logLevel | default "debug" }}
   - --server_host
   - 0.0.0.0
+{{- if .Values.server.cloudProfilerEnabled }}
+  - --enable_profiler
+{{- end }}
   volumeMounts:
-  - name: google-cloud-key
-    mountPath: /var/secrets/google
-    readOnly: true
   - name: forseti-server-config-volume
     mountPath: /forseti-security
     readOnly: true
   env:
-  - name: GOOGLE_APPLICATION_CREDENTIALS
-    value: /var/secrets/google/key.json
   - name: FORSETI_HOME
     value: /forseti-security
 {{- if .Values.configValidator }}

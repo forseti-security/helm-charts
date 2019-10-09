@@ -30,9 +30,18 @@ steps:
   id: Setup connection to GKE
   args: ["container", "clusters", "get-credentials", "$_GKE_CLUSTER", "--project", "$_PROJECT_ID", "--region", "$_LOCATION"]
 
+- name: 'gcr.io/cloud-builders/docker'
+  id: "ls -al"
+  entrypoint: "ls"
+  args: ["-al"]
+
+- name: 'gcr.io/cloud-builders/docker'
+  id: "pwd"
+  entrypoint: "pwd"
+
 - name: 'gcr.io/kubernetes-charts-ci/test-image:v3.3.2'
   id: Lint and test forseti-security charts
-  args: ["ct", "lint-and-install", "--remote", "upstream", "--charts", "charts/forseti-security"]
+  args: ["ct", "lint-and-install", "--config=cloudbuild/ct.yaml"]
   env: ["CLOUDSDK_CONTAINER_USE_APPLICATION_DEFAULT_CREDENTIALS=true"]
 
 substitutions:

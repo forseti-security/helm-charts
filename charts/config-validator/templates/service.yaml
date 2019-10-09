@@ -12,29 +12,26 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-{{ if and (.Values.networkPolicyEnable) (.Values.configValidator) }}
-apiVersion: networking.k8s.io/v1
-kind: NetworkPolicy
+apiVersion: v1
+kind: Service
 metadata:
-  name: {{ .Release.Name }}-config-validator-allow-ingress
+  name: {{ .Release.Name }}-config-validator
+{{- if and (eq .Values.loadBalancer "internal") }}
+  annotations:
+    cloud.google.com/load-balancer-type: "Internal"
+{{- end }}
   labels:
-    chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
     component: config-validator
+    chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
 spec:
-  podSelector:
-    matchLabels:
-      component: config-validator
-  policyTypes:
-  - Ingress
-  ingress:
-  - from:
-    - podSelector:
-        matchLabels:
-          component: forseti-server
-    - podSelector:
-        matchLabels:
-          component: config-validator-test
-    ports:
-    - protocol: TCP
-      port: 50052
-{{ end }}
+{{- if and (or (eq  .Values.loadBalancer "internal") (eq .Values.loadBalancer "external")) }}
+  type: LoadBalancer
+{{- else }}
+  type: ClusterIP
+{{- end }}
+  ports:
+  - port: 50052
+    targetPort: 50052
+    protocol: TCP
+  selector:
+    component: config-validator

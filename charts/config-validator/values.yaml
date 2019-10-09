@@ -1,0 +1,57 @@
+# Copyright 2019 The Forseti Security Authors. All rights reserved.
+#
+# Licensed under the Apache License, Versisn 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+
+# image is the container image used by the config-validator
+image: gcr.io/forseti-containers/config-validator
+
+# imageTag is the tag for the config-validator image.
+imageTag: latest
+
+# loadBalancer is the type of load balancer to deploy for the config-validator
+# if desired: none, external, internal
+loadBalancer: none
+
+networkPolicy:
+  # networkPolicy.enable enables pod network policy to limit the connectivty to the config-validator.
+  enabled: false
+  # networkPolicyIngressCidr is a list of CIDR's from which to allow
+  # communication to the config-validator.  This is only relevant for client connectivity
+  # from outside the Kubernetes cluster.
+  ingressCidr: []
+
+# nodeSelectors is a list of strings in the form of label=value describing
+# on which nodes to run the Forseti on-GKE pods.
+nodeSelectors: []
+
+gitSync:
+  # gitSync.image is the container image used by the config-validator git-sync side-car
+  image: gcr.io/google-containers/git-sync
+
+  # gitSync.imageTag is the container image tag used by the config-validator git-sync side-car
+  imageTag: v3.1.2
+
+  # gitSync.privateSSHKey is the private OpenSSH key generated to allow the git-sync to clone the policy library repository over SSH.
+  # Omitting this value will sync the policy-library over HTTPS.
+  privateSSHKey: ""
+
+  # gitSync.wait the time number of seconds between git-syncs
+  wait: 30
+
+policyLibrary:
+  # policyLibrary.repositoryURL is a git repository policy-library.
+  repositoryURL: "https://github.com/forseti-security/policy-library"
+
+  # policyLibrary.repositoryBranch is the specific git branch containing the policies.
+  repositoryBranch: "master"

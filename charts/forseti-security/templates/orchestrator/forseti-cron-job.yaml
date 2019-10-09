@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-{{ if and (.Values.orchestratorDeploy) (.Values.production) }} 
+{{ if and (.Values.orchestrator.enabled) (.Values.production) }} 
 apiVersion: batch/v1beta1
 kind: CronJob
 metadata:
@@ -21,7 +21,7 @@ metadata:
     chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
     component: forseti-orchestrator
 spec:
-  schedule: "{{ .Values.serverSchedule }}"
+  schedule: "{{ .Values.orchestrator.runFrequency }}"
   jobTemplate:
     spec:
       template:
@@ -30,9 +30,17 @@ spec:
             component: forseti-orchestrator
             chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
         spec:
+          serviceAccountName: forseti-orchestrator
+          {{- if .Values.nodeSelectors }}
+          nodeSelector:
+{{- end }}
+{{- range .Values.nodeSelectors }}
+{{ $split_selector := splitList "=" . }}
+            {{ index $split_selector 0 }}: {{ index $split_selector 1 }}
+{{- end }}
           containers:
           - name: {{ .Release.Name }}-orchestrator
-            image: "{{ .Values.orchestratorImage }}:{{ .Values.orchestratorImageTag | default .Chart.AppVersion }}"
+            image: "{{ .Values.orchestrator.image }}:{{ .Values.orchestrator.imageTag | default .Chart.AppVersion }}"
             imagePullPolicy: Always
             args:
             - --run_client
@@ -41,16 +49,8 @@ spec:
             env:
             - name: FORSETI_HOME
               value: /forseti-security/
-            volumeMounts:
-            - name: google-cloud-key
-              mountPath: /var/secrets/google
-              readOnly: true
             securityContext:
               runAsUser: 1000
-          volumes:
-          - name: google-cloud-key
-            secret:
-              secretName: {{ .Release.Name }}-orchestrator-credentials
           restartPolicy: Never
           schedulerName: default-scheduler
       completions: 1

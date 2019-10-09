@@ -11,20 +11,30 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-{{- if .Values.configValidator }}
-apiVersion: v1
-kind: Service
+
+{{ if and (.Values.networkPolicy.enable) }}
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
 metadata:
-  name: {{ .Release.Name }}-config-validator
+  name: {{ .Release.Name }}-config-validator-allow-ingress
   labels:
-    component: config-validator
     chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
-spec:
-  type: ClusterIP
-  ports:
-  - port: 50052
-    targetPort: 50052
-    protocol: TCP
-  selector:
     component: config-validator
-{{- end }}
+spec:
+  podSelector:
+    matchLabels:
+      component: config-validator
+  policyTypes:
+  - Ingress
+  ingress:
+  - from:
+    - podSelector:
+        matchLabels:
+          configValidator: client
+    - podSelector:
+        matchLabels:
+          component: config-validator-test
+    ports:
+    - protocol: TCP
+      port: 50052
+{{ end }}

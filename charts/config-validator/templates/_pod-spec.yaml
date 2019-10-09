@@ -14,14 +14,16 @@
 {{- define "spec.pod.configValidator" }}
 initContainers:
 - name: git-sync-init
-  image: "{{ .Values.gitSyncImage }}:{{ .Values.gitSyncImageTag }}"
+  image: "{{ .Values.gitSync.image }}:{{ .Values.gitSync.imageTag }}"
   args:
-  - -repo={{ .Values.policyLibraryRepositoryURL }}
-  - -branch={{ .Values.policyLibraryRepositoryBranch }}
+  - -repo={{ .Values.policyLibrary.repositoryURL }}
+  - -branch={{ .Values.policyLibrary.repositoryBranch }}
   - -dest=policy-library
   - -one-time
-  - -ssh={{ .Values.gitSyncSSH }}
+{{ if .Values.gitSync.privateSSHKey }}
+  - -ssh=true
   - -ssh-known-hosts=false
+{{- end }}
   securityContext:
     runAsUser: 65533
     runAsGroup: 65533
@@ -29,22 +31,24 @@ initContainers:
   volumeMounts:
   - name: policy-library
     mountPath: /tmp/git/
-{{- if .Values.gitSyncSSH }}
+{{- if .Values.gitSync.privateSSHKey }}
   - name: git-sync-ssh-key
     mountPath: /etc/git-secret/
 {{- end }}
 containers:
 - name: git-sync
-  image: "{{ .Values.gitSyncImage }}:{{ .Values.gitSyncImageTag }}"
+  image: "{{ .Values.gitSync.image }}:{{ .Values.gitSync.imageTag }}"
   args:
-  - -repo={{ .Values.policyLibraryRepositoryURL }}
-  - -branch={{ .Values.policyLibraryRepositoryBranch }}
+  - -repo={{ .Values.policyLibrary.repositoryURL }}
+  - -branch={{ .Values.policyLibrary.repositoryBranch }}
   - -dest=policy-library
-  - -wait={{ .Values.gitSyncWait }}
+  - -wait={{ .Values.gitSync.wait }}
   - -webhook-url=http://localhost:8001/api/v1/namespaces/{{ .Release.Namespace }}/pods/$(POD_NAME)
   - -webhook-method=DELETE
-  - -ssh={{ .Values.gitSyncSSH }}
+{{ if .Values.gitSync.privateSSHKey }}
+  - -ssh=true
   - -ssh-known-hosts=false
+{{- end }}
   env:
   - name: POD_NAME
     valueFrom:
@@ -57,7 +61,7 @@ containers:
   volumeMounts:
   - name: policy-library
     mountPath: /tmp/git/
-{{- if .Values.gitSyncSSH }}
+{{- if .Values.gitSync.privateSSHKey }}
   - name: git-sync-ssh-key
     mountPath: /etc/git-secret/
 {{- end }}
@@ -67,7 +71,7 @@ containers:
   - proxy
   - --certificate-authority=/var/run/secrets/kubernetes.io/serviceaccount/ca.crt
 - name: config-validator
-  image: "{{ .Values.configValidatorImage }}:{{ .Values.configValidatorImageTag }}"
+  image: "{{ .Values.image }}:{{ .Values.imageTag }}"
   # -policyPath        https://github.com/forseti-security/policy-library/tree/master/policies
   # -policyLibraryPath https://github.com/forseti-security/policy-library/tree/master/lib
   args: ["-policyPath", "/policy-library/policies", "-policyLibraryPath", "/policy-library/lib", "-port", "50052", "-alsologtostderr"]
@@ -91,7 +95,7 @@ volumes:
   emptyDir: {
       medium: "Memory"
   }
-{{- if .Values.gitSyncSSH }}
+{{- if .Values.gitSync.privateSSHKey }}
 - name: git-sync-ssh-key
   secret: 
     secretName: git-sync-ssh-key
