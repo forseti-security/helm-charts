@@ -48,7 +48,7 @@ server:
   image: "gcr.io/forseti-containers/forseti"
 
   # server.imageTag is the tag for the server container image.
-  imageTag: "v2.21.0"
+  imageTag: "v2.22.0"
 
   # serverLogLevel is the log level for the server.
   logLevel: info
@@ -67,7 +67,7 @@ orchestrator:
   image: "gcr.io/forseti-containers/forseti"
 
   # orchestrator.imageTag is the tag for the orchestrator container image.
-  imageTag: "v2.21.0"
+  imageTag: "v2.22.0"
 
   # runFrequency is the cron schedule for the orchestrator.  The default is every
   # 60 minutes
@@ -121,7 +121,7 @@ configValidator:
 
   policyLibrary:
     # policyLibrary.repositoryURL is a git repository policy-library.
-    repositoryURL: ""
+    repositoryURL: "https://github.com/forseti-security/policy-library"
 
     # policyLibraryRepositoryBranch is the specific git branch containing the policies.
     repositoryBranch: "master"
