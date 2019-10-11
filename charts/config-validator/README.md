@@ -28,7 +28,7 @@ Note that certain values are required.  See the [configuration](#configuration) 
 
 #### Upgrading
 
-The forseti-security Helm chart can be easily upgraded via the ```helm upgrade``` command.  For example:
+The config-validator Helm chart can be easily upgraded via the ```helm upgrade``` command.  For example:
 ```bash
 helm upgrade -i config-validator forseti-security/config-validator \
                                  --values=config-validator-values.yaml
