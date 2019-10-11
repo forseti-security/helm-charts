@@ -20,7 +20,8 @@ helm install forseti-security/config-validator
 #### Installing
 The config-validator Helm chart can be installed using the following as an example:
 ```bash
-helm install 00name config-validator forseti-security/config-validator --values=config-validator-values.yaml
+helm install --name config-validator forseti-security/config-validator \
+             --values=config-validator-values.yaml
 ```
 Note that certain values are required.  See the [configuration](#configuration) for details.
 
@@ -29,7 +30,8 @@ Note that certain values are required.  See the [configuration](#configuration) 
 
 The forseti-security Helm chart can be easily upgraded via the ```helm upgrade``` command.  For example:
 ```bash
-helm upgrade -i config-validator forseti-security/config-validator --values=forseti-values.yaml
+helm upgrade -i config-validator forseti-security/config-validator \
+                                 --values=config-validator-values.yaml
 ```
 
 #### Uninstalling

@@ -6,8 +6,8 @@
 
 1. Kubernetes Cluster 1.12+ with the [workload-identity](https://cloud.google.com/kubernetes-engine/docs/how-to/workload-identity) addon enabled.
 2. A Forseti environment.  This can be created via the Forseti Security [Terraform module](https://forsetisecurity.org/docs/latest/setup/install.html).
-3. A GCP project IAM policy binding tying the Kubernetes Service account for the server (created by this chart) to the GCP IAM Forseti server service account.  This is binding is created via the Terraform module or can be created [manually](https://cloud.google.com/kubernetes-engine/docs/how-to/workload-identity#enable_workload_identity_on_a_new_cluster)
-4. A GCP project IAM policy binding tying the Kubernetes Service account for the orhesctrator (created by this chart) to the GCP IAM Forseti client service account.  This is binding is created via the Terraform module or can be created [manually](https://cloud.google.com/kubernetes-engine/docs/how-to/workload-identity#enable_workload_identity_on_a_new_cluster)
+3. A GCP project IAM policy binding tying the Kubernetes Service account for the server (created by this chart) to the GCP IAM Forseti server service account.  This binding is created via the Terraform module or can be created [manually](https://cloud.google.com/kubernetes-engine/docs/how-to/workload-identity#enable_workload_identity_on_a_new_cluster).
+4. A GCP project IAM policy binding tying the Kubernetes Service account for the orchestrator (created by this chart) to the GCP IAM Forseti client service account.  This binding is created via the Terraform module or can be created [manually](https://cloud.google.com/kubernetes-engine/docs/how-to/workload-identity#enable_workload_identity_on_a_new_cluster).
 
 ## Production Configuration
 Whether or not to deploy the forseti-security helm chart in a production configuration is controlled by the **production** value.  By default, this is set to **false**.  A production configuration presumes the existence of [Forseti infrastructure](https://forsetisecurity.org/docs/latest/concepts/architecture.html).  The required components are deployed via the Forseti Terrafom Module.  
@@ -142,7 +142,7 @@ helm install forseti-security/forseti-security \
 | orchestrator.enabled            | Whether or not to deploy the orchestrator.                | `true`|
 | orchestrator.image             | The container image used by the orchestrator.             | `gcr.io/forseti-security-containers/forseti`|
 | orchestrator.imageTag          | The tag for the orchestrator container image.              | `v2.22.0` |
-| **orhcestrator.workloadIdentity**  | the GCP IAM Service account for the Forseti client/orchestrator. | `nil` |
+| **orchestrator.workloadIdentity**  | the GCP IAM Service account for the Forseti client/orchestrator. | `nil` |
 | production                    | Deploy in a production configuration.                      | `false`|
 | server.cloudProfilerEnabled           | enables the forseti-server to send metrics to Cloud Profiler | `false` |
 | server.loadBalancer                  | Deploy a Load Balancer allowing access to the Forseti server ['none', 'internal', 'external'] | `none` |
