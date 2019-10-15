@@ -27,6 +27,8 @@
   - --sql_host
   - {{ .Release.Name }}-server.{{ .Release.Namespace }}.svc.cluster.local
 {{- end }}
+  - --sql_database_name
+  -  {{ .Values.server.cloudsqlDatabaseName }}
   - --log_level
   -  {{ .Values.server.logLevel | default "debug" }}
   - --server_host
