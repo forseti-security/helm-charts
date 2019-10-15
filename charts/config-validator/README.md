@@ -18,31 +18,20 @@ helm install forseti-security/config-validator
 ### With Tiller (Option 1)
 
 #### Installing
-The forseti-security Helm chart can be installed using the following as an example:
+The config-validator Helm chart can be installed using the following as an example:
 ```bash
-helm install --set production=true \
-             --name forseti  \
-             --set-string serverKeyContents="$(cat forseti-server.json | base64 - -w 0)" \
-             --set-string orchestratorKeyContents="$(cat forseti-client.json | base64 - -w 0)" \
-             --set-string serverConfigContents="$(gsutil cat gs://<BUCKET_NAME>/configs/forseti_conf_server.yaml | base64 -)" \
-             --values=forseti-values.yaml \
-             forseti-security/forseti-security
+helm install --name config-validator forseti-security/config-validator \
+             --values=config-validator-values.yaml
 ```
 Note that certain values are required.  See the [configuration](#configuration) for details.
 
-Also note that if running on *MacOS*, the `-w 0` flag is not supported for the `base64` command and should be ommitted from the above command.
 
 #### Upgrading
 
-The forseti-security Helm chart can be easily upgraded via the ```helm upgrade``` command.  For example:
+The config-validator Helm chart can be easily upgraded via the ```helm upgrade``` command.  For example:
 ```bash
-helm upgrade -i forseti forseti-security/forseti-security \
-    --set production=true \
-    --recreate-pods \
-    --set-string serverKeyContents="$(cat forseti-server.json | base64 - -w 0)" \
-    --set-string orchestratorKeyContents="$(cat forseti-client.json | base64 - -w 0)" \
-    --set-string serverConfigContents="$(gsutil cat gs://<BUCKET_NAME>/configs/forseti_conf_server.yaml | base64 -)" \
-    --values=forseti-values.yaml
+helm upgrade -i config-validator forseti-security/config-validator \
+                                 --values=config-validator-values.yaml
 ```
 
 #### Uninstalling
