@@ -23,7 +23,7 @@
   - name: MYSQL_ALLOW_EMPTY_PASSWORD
     value: "1"
   - name: MYSQL_DATABASE
-    value: {{ .Values.server.cloudsqlDatabaseName }}
+    value: {{ .Values.database.name }}
   ports:
   - containerPort: 3306
   volumeMounts:

@@ -1,15 +1,15 @@
-{{- if and (not .Values.server.cloudsqlConnection) (.Values.production) }}
+{{- if and (not .Values.database.connectionName) (.Values.production) }}
 
-It looks like you are missing information for the Forseti CloudSQL 
+It looks like you are missing information for the Forseti CloudSQL
 instance.  Please provide the following:
-    
-   server.cloudsqlConnection - A CloudSQL connection string in the form 
+
+   database.connectionName - A CloudSQL connection string in the form
                               of \"project:location:cloud-sql-instance-name\"
 {{- end -}}
 
 {{- if and (not .Values.server.config.bucket) (.Values.production) }}
 
-It looks like you are missing the name of the GCS bucket holding the 
+It looks like you are missing the name of the GCS bucket holding the
 server configuration.  Please provide the following:
 
     server.config.bucket - The bucket containing the server configurations.
@@ -18,22 +18,22 @@ server configuration.  Please provide the following:
 
 {{- if and (not .Values.server.config.contents) (.Values.production) }}
 
-It looks like you are missing the contents of the Forseti server configuration file, usually 
+It looks like you are missing the contents of the Forseti server configuration file, usually
 found in <PATH>/forseti_conf_server.yaml.
 
-    1. If the server configuration file is local to the machine executing Helm add 
+    1. If the server configuration file is local to the machine executing Helm add
        the following parameter to your helm command:
 
-        --set-string server.config.contents="$(cat <PATH>/forseti_conf_server.yaml | base64 -)" 
+        --set-string server.config.contents="$(cat <PATH>/forseti_conf_server.yaml | base64 -)"
 
     2. If the server configuration is in a GCS bucket, then use the following (assumes
        gsutil is present on host executing helm):
 
        --set-string server.config.contents="$(gsutil cat gs://<BUCKET_NAME>/<CONFIGS_FOLDER>/forseti_conf_server.yaml | base64 -)"
-    
+
     Run Helm upgrade or install feeding in the base64 encoded contents of the key file:
 
-        
+
 
 {{- end -}}
 
@@ -54,4 +54,3 @@ Thank you for installing {{ .Chart.Name }}.
 Your release is named {{ .Release.Name }}.
 
 Please visit https://forsetisecurity.org for information on configuring Forseti.
-
