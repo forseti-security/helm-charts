@@ -77,6 +77,9 @@ containers:
   args: ["-policyPath", "/policy-library/policies", "-policyLibraryPath", "/policy-library/lib", "-port", "50052", "-alsologtostderr"]
   ports:
   - containerPort: 50052
+  env:
+  - name: GOGC
+    value: "1000"
   volumeMounts:
   - name: policy-library
     mountPath: /policy-library/policies
