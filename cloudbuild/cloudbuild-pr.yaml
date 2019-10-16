@@ -34,6 +34,7 @@ steps:
   id: Lint and test forseti-security charts
   args: ["ct", "lint-and-install", "--config=cloudbuild/ct.yaml"]
   env: ["CLOUDSDK_CONTAINER_USE_APPLICATION_DEFAULT_CREDENTIALS=true"]
+
 substitutions:
   _PROJECT_ID: forseti-test-infrastructure
   _GKE_CLUSTER: helm-test-cluster
