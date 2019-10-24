@@ -12,20 +12,27 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: {{ .Release.Name }}-config-validator
-spec:
-  selector:
-    matchLabels:
-      component: config-validator
-  replicas: 1
-  template:
-    metadata:
-      labels:
-        component: config-validator
-        chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
-    spec:
-      serviceAccountName: config-validator
-{{- include "spec.pod.configValidator" . | indent 6 }}
+{{- define "spec.container.emptyDir" }}
+- name: empty-dir-lib
+  image: gcr.io/cloud-builders/gsutil
+  command: ["/bin/mkdir"]
+  args: ["/policy-library/lib"]
+  volumeMounts:
+  - name: policy-library
+    mountPath: /policy-library/
+  securityContext:
+    runAsUser: 65533
+    runAsGroup: 65533
+    fsGroup: 65533
+- name: empty-dir-policies
+  image: gcr.io/cloud-builders/gsutil
+  command: ["/bin/mkdir"]
+  args: ["/policy-library/policies"]
+  volumeMounts:
+  - name: policy-library
+    mountPath: /policy-library/
+  securityContext:
+    runAsUser: 65533
+    runAsGroup: 65533
+    fsGroup: 65533
+{{- end }}

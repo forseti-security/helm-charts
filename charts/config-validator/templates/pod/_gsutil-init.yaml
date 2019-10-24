@@ -11,32 +11,19 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  name: pod-deleter
-  namespace: {{ .Release.Namespace }}
----
-apiVersion: rbac.authorization.k8s.io/v1
-kind: RoleBinding
-metadata:
-  name: pod-deleter
-  namespace: {{ .Release.Namespace }}
-roleRef:
-  apiGroup: rbac.authorization.k8s.io
-  kind: Role
-  name: pod-deleter
-subjects:
-  - kind: ServiceAccount
-    name: pod-deleter
-    namespace: {{ .Release.Namespace }}
----
-apiVersion: rbac.authorization.k8s.io/v1
-kind: Role
-metadata:
-  name: pod-deleter
-  namespace: {{ .Release.Namespace }}
-rules:
-- apiGroups: [""]
-  resources: ["pods"]
-  verbs: ["delete"]
+
+{{- define "spec.container.gsutilInit" }}
+- name: gsutil-init
+  image: gcr.io/cloud-builders/gsutil
+  args: ['cp', '-r', 'gs://{{ .Values.policyLibrary.bucket }}/{{ .Values.policyLibrary.bucketFolder }}/', '/policy-library/']
+  env:
+  - name: HOME
+    value: /policy-library
+  volumeMounts:
+  - name: policy-library
+    mountPath: /policy-library/
+  securityContext:
+    runAsUser: 65533
+    runAsGroup: 65533
+    fsGroup: 65533
+{{- end }}

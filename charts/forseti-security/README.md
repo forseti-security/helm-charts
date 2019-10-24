@@ -129,19 +129,20 @@ helm install forseti-security/forseti-security \
     --set production=true
     --set-string serverConfigContents="$(gsutil cat gs://<BUCKET_NAME>/configs/forseti_conf_server.yaml | base64 -)" \
     --values forseti-values.yaml
-    
+
 ```
 
 | Parameter                                | Description                                    | Default|
 | ----------------------------- | ------------------------------------ |------------------------------------------- |
-| **server.cloudsqlConnection**        | This is the connection to the CloudSQL instance.          | `nil`|
 | configValidator.enabled               | This sets whether or not to deploy config-validator       | `false` |
+| **database.connectionName**        | This is the connection to the CloudSQL instance.          | `nil`|
+| database.name        | This is the name of the CloudSQL database.          | `forseti_security`|
 | networkPolicy.enabled           | Enable pod network policy to limit the connectivty to the server. | `false` |
 | networkPolicy.ingressCidr      | A list of CIDR's from which to allow communication to the server.  This is only relevant for client connectivity from outside the Kubernetes cluster. | `[]` |
 | nodeSelectors                 | A list of strings in the form of label=value describing on which nodes to run the Forseti on-GKE pods. | `nil` |
 | orchestrator.enabled            | Whether or not to deploy the orchestrator.                | `true`|
 | orchestrator.image             | The container image used by the orchestrator.             | `gcr.io/forseti-security-containers/forseti`|
-| orchestrator.imageTag          | The tag for the orchestrator container image.              | `v2.22.0` |
+| orchestrator.imageTag          | The tag for the orchestrator container image.              | `v2.23.0` |
 | **orchestrator.workloadIdentity**  | the GCP IAM Service account for the Forseti client/orchestrator. | `nil` |
 | production                    | Deploy in a production configuration.                      | `false`|
 | server.cloudProfilerEnabled           | enables the forseti-server to send metrics to Cloud Profiler | `false` |
@@ -152,7 +153,7 @@ helm install forseti-security/forseti-security \
 | server.config.bucketFolder      | The folder in the server bucket containing the server configs. | `configs` |
 | **server.config.contents**      | The Base64 encoded contents of the forseti_conf_server.yaml file.| `nil`|
 | server.image                   | The container image used by the server.                   | `gcr.io/forseti-security-containers/forseti`|
-| server.imageTag                | The tag for the server container image.              | `v2.22.0` |
+| server.imageTag                | The tag for the server container image.              | `v2.23.0` |
 | server.logLevel                | The log level for the server.                             | `info` |
 | server.runFrequency               | The cron schedule for the server.  The default is every 60 minute.    | `"*/60 * * * *"` Every 60 minutes|
 | **server.workloadIdentity**        | The GCP IAM Service account for the Forseti server.       | `nil` |

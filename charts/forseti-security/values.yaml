@@ -15,9 +15,6 @@
 
 ## forseti-server ##
 server:
-  # server.cloudsqlConnection is the connection to the cloudsql instance
-  cloudsqlConnection: ""
-
   # server.cloudProfilerEnabled enables the forseti-server to send metrics to Cloud Profiler
   cloudProfilerEnabled: false
 
@@ -30,7 +27,6 @@ server:
 
     # server.contents is the Base64 encoded contents of the forseti_conf_server.yaml file.
     contents: ""
-
 
   # server.loadBalancer is the type of load balancer to deploy for the
   # forseti-server if desired: none, external, internal
@@ -48,7 +44,7 @@ server:
   image: "gcr.io/forseti-containers/forseti"
 
   # server.imageTag is the tag for the server container image.
-  imageTag: "v2.22.0"
+  imageTag: "v2.23.0"
 
   # serverLogLevel is the log level for the server.
   logLevel: info
@@ -56,6 +52,15 @@ server:
   # server.workloadIdentity is the GCP IAM Service account for the Forseti server.
   # Setting this assumes that the workload identity is configured for the GKE cluster.
   workloadIdentity: ""
+
+
+## forseti-database ##
+database:
+  # database.connectionName is the connection to the cloudsql instance
+  connectionName: ""
+
+  # database.name is the name of the Forseti Cloud SQL database
+  name: forseti_security
 
 
 ## forseti-orchestrator ##
@@ -67,7 +72,7 @@ orchestrator:
   image: "gcr.io/forseti-containers/forseti"
 
   # orchestrator.imageTag is the tag for the orchestrator container image.
-  imageTag: "v2.22.0"
+  imageTag: "v2.23.0"
 
   # runFrequency is the cron schedule for the orchestrator.  The default is every
   # 60 minutes
@@ -107,6 +112,9 @@ configValidator:
   nodeSelectors: []
 
   gitSync:
+    # gitSync.enabled determines if the Git repository will be polled periodically for changes.
+    enabled: false
+
     # gitSync.image is the container image used by the config-validator git-sync side-car
     image: gcr.io/google-containers/git-sync
 
@@ -120,11 +128,21 @@ configValidator:
     gitSyncWait: 30
 
   policyLibrary:
+    # bucket is the GCS storage bucket containing the policy-library.  This overrides policyLibrary.respositoryURL. Ommit the gs://.
+    bucket: ""
+
+    # policyLibrary.bucketFolder is the folder inside the policyLibrary.bucket containing all the rules.
+    bucketFolder: "policy-library"
+
     # policyLibrary.repositoryURL is a git repository policy-library.
-    repositoryURL: "https://github.com/forseti-security/policy-library"
+    repositoryURL: ""
 
     # policyLibraryRepositoryBranch is the specific git branch containing the policies.
     repositoryBranch: "master"
+
+  # workloadIdentity is a GCP IAM Service account with the storage.objects.list (e.g. roles/storage.objectViewer)
+  # Setting this assumes that workloadIdentity is configured for the GKE cluster.
+  workloadIdentity: ""
 
 networkPolicy:
   # networkPolicy.enable enables pod network policy to limit the connectivty to the server.
