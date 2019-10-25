@@ -129,13 +129,14 @@ helm install forseti-security/forseti-security \
     --set production=true
     --set-string serverConfigContents="$(gsutil cat gs://<BUCKET_NAME>/configs/forseti_conf_server.yaml | base64 -)" \
     --values forseti-values.yaml
-    
+
 ```
 
 | Parameter                                | Description                                    | Default|
 | ----------------------------- | ------------------------------------ |------------------------------------------- |
-| **server.cloudsqlConnection**        | This is the connection to the CloudSQL instance.          | `nil`|
 | configValidator.enabled               | This sets whether or not to deploy config-validator       | `false` |
+| **database.connectionName**        | This is the connection to the CloudSQL instance.          | `nil`|
+| database.name        | This is the name of the CloudSQL database.          | `forseti_security`|
 | networkPolicy.enabled           | Enable pod network policy to limit the connectivty to the server. | `false` |
 | networkPolicy.ingressCidr      | A list of CIDR's from which to allow communication to the server.  This is only relevant for client connectivity from outside the Kubernetes cluster. | `[]` |
 | nodeSelectors                 | A list of strings in the form of label=value describing on which nodes to run the Forseti on-GKE pods. | `nil` |

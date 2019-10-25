@@ -15,9 +15,6 @@
 
 ## forseti-server ##
 server:
-  # server.cloudsqlConnection is the connection to the cloudsql instance
-  cloudsqlConnection: ""
-
   # server.cloudProfilerEnabled enables the forseti-server to send metrics to Cloud Profiler
   cloudProfilerEnabled: false
 
@@ -30,7 +27,6 @@ server:
 
     # server.contents is the Base64 encoded contents of the forseti_conf_server.yaml file.
     contents: ""
-
 
   # server.loadBalancer is the type of load balancer to deploy for the
   # forseti-server if desired: none, external, internal
@@ -56,6 +52,15 @@ server:
   # server.workloadIdentity is the GCP IAM Service account for the Forseti server.
   # Setting this assumes that the workload identity is configured for the GKE cluster.
   workloadIdentity: ""
+
+
+## forseti-database ##
+database:
+  # database.connectionName is the connection to the cloudsql instance
+  connectionName: ""
+
+  # database.name is the name of the Forseti Cloud SQL database
+  name: forseti_security
 
 
 ## forseti-orchestrator ##
