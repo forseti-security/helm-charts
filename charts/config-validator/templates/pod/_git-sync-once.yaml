@@ -14,7 +14,7 @@
 
 {{- define "spec.container.gitSync.once" }}
 - name: git-sync-init
-  image: "{{ .Values.gitSync.image }}:{{ .Values.gitSync.imageTag }}"
+  image: "{{ .Values.policyLibrary.gitSync.image }}:{{ .Values.policyLibrary.gitSync.imageTag }}"
   args:
   - -repo={{ .Values.policyLibrary.repositoryURL }}
   - -branch={{ .Values.policyLibrary.repositoryBranch }}
@@ -31,7 +31,7 @@
   volumeMounts:
   - name: policy-library
     mountPath: /tmp/git/
-{{- if .Values.gitSync.privateSSHKey }}
+{{- if .Values.policyLibrary.gitSync.privateSSHKey }}
   - name: git-sync-ssh-key
     mountPath: /etc/git-secret/
 {{- end }}

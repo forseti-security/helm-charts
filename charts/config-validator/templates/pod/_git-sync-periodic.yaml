@@ -14,12 +14,12 @@
 
 {{- define "spec.container.gitSync.periodic" }}
 - name: git-sync
-  image: "{{ .Values.gitSync.image }}:{{ .Values.gitSync.imageTag }}"
+  image: "{{ .Values.policyLibrary.gitSync.image }}:{{ .Values.policyLibrary.gitSync.imageTag }}"
   args:
   - -repo={{ .Values.policyLibrary.repositoryURL }}
   - -branch={{ .Values.policyLibrary.repositoryBranch }}
   - -dest=policy-library
-  - -wait={{ .Values.gitSync.wait }}
+  - -wait={{ .Values.policyLibrary.gitSync.wait }}
   - -webhook-url=http://localhost:8001/api/v1/namespaces/{{ .Release.Namespace }}/pods/$(POD_NAME)
   - -webhook-method=DELETE
 {{ if .Values.policyLibrary.gitSync.privateSSHKey }}
