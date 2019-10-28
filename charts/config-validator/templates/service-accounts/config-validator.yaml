@@ -33,7 +33,7 @@ roleRef:
   name: pod-deleter
 subjects:
   - kind: ServiceAccount
-    name: pod-deleter
+    name: config-validator
     namespace: {{ .Release.Namespace }}
 ---
 apiVersion: rbac.authorization.k8s.io/v1
