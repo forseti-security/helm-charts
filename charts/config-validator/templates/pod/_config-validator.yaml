@@ -15,8 +15,6 @@
 {{- define "spec.container.configValidator" }}
 - name: config-validator
   image: "{{ .Values.image }}:{{ .Values.imageTag }}"
-  # -policyPath        https://github.com/forseti-security/policy-library/tree/master/policies
-  # -policyLibraryPath https://github.com/forseti-security/policy-library/tree/master/lib
   args: ["-policyPath", "/policy-library/policies", "-policyLibraryPath", "/policy-library/lib", "-port", "50052", "-alsologtostderr"]
   ports:
   - containerPort: 50052
