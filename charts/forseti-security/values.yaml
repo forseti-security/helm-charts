@@ -82,11 +82,26 @@ orchestrator:
   # Setting this assumes that workloadIdentity is configured for the GKE cluster.
   workloadIdentity: ""
 
-
 ## config-validator ##
 configValidator:
   # configValidator sets whether or not to deploy config-validator
   enabled: false
+
+# nodeSelectors is a list of strings in the form of label=value describing
+# on which nodes to run the Forseti on-GKE pods.
+nodeSelectors: []
+
+# production sets whether or not to deploy in a production configuration.
+production: false
+
+networkPolicy:
+  # networkPolicy.enable enables pod network policy to limit the connectivty to the server.
+  enabled: false
+
+  # networkPolicyIngressCidr is a list of CIDR's from which to allow
+  # communication to the server.  This is only relevant for client connectivity
+  # from outside the Kubernetes cluster.
+  ingressCidr: []
 
 # nodeSelectors is a list of strings in the form of label=value describing
 # on which nodes to run the Forseti on-GKE pods.
