@@ -36,7 +36,7 @@ networkPolicy:
 nodeSelectors: []
 
 policyLibrary:
-  # bucket is the GCS storage bucket containing the policy-library.  This overrides policyLibrary.respositoryURL. Ommit the gs://.
+  # bucket is the GCS storage bucket containing the policy-library.  This overrides policyLibrary.respositoryURL. Omit the gs://.
   bucket: ""
 
   # policyLibrary.bucketFolder is the folder inside the policyLibrary.bucket containing all the policy-library lib and policies folders.

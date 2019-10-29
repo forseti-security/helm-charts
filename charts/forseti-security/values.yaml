@@ -34,7 +34,7 @@ server:
 
   rules:
     # server.rules.bucket is the GCS bucket containing the rules.  Often this is the same as the
-    # serverBucket.  Ommit the "gs://".
+    # serverBucket.  Omit the "gs://".
     bucket: ""
 
     # server.rules.bucketFolder is the folder inside the rulesBucket containing all the rules.

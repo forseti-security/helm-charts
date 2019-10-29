@@ -111,7 +111,7 @@ helm install forseti-security/config-validator \
 | networkPolicy.enabled           | Enable pod network policy to limit the connectivty to the server. | `false` |
 | networkPolicy.ingressCidr      | A list of CIDR's from which to allow communication to the server.  This is only relevant for client connectivity from outside the Kubernetes cluster. | `[]` |
 | nodeSelectors                 | A list of strings in the form of label=value describing on which nodes to run the Forseti on-GKE pods. | `nil` |
-| policyLibrary.bucket          | The GCS storage bucket containing the policy-library.  This overrides policyLibrary.respositoryURL. Ommit the gs://. | `nil` |
+| policyLibrary.bucket          | The GCS storage bucket containing the policy-library.  This overrides policyLibrary.respositoryURL. Omit the gs://. | `nil` |
 | policyLibrary.bucketFolder    | The folder inside the policyLibrary.bucket containing all the policy-library lib and policies folders | `policy-library` |
 | policyLibrary.repositoryURL    | The Git repository containing the policy-library. | `https://github.com/forseti-security/policy-library` |
 | policyLibrary.repositoryBranch | The specific git branch containing the policies. | `master` |
