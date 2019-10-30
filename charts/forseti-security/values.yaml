@@ -102,10 +102,4 @@ networkPolicy:
   # communication to the server.  This is only relevant for client connectivity
   # from outside the Kubernetes cluster.
   ingressCidr: []
-
-# nodeSelectors is a list of strings in the form of label=value describing
-# on which nodes to run the Forseti on-GKE pods.
-nodeSelectors: []
-
-# production sets whether or not to deploy in a production configuration.
-production: false
+  
