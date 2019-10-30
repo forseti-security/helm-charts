@@ -27,5 +27,5 @@ spec:
         component: config-validator
         chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
     spec:
-      serviceAccountName: pod-deleter
+      serviceAccountName: config-validator
 {{- include "spec.pod.configValidator" . | indent 6 }}

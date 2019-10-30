@@ -35,23 +35,36 @@ networkPolicy:
 # on which nodes to run the Forseti on-GKE pods.
 nodeSelectors: []
 
-gitSync:
-  # gitSync.image is the container image used by the config-validator git-sync side-car
-  image: gcr.io/google-containers/git-sync
-
-  # gitSync.imageTag is the container image tag used by the config-validator git-sync side-car
-  imageTag: v3.1.2
-
-  # gitSync.privateSSHKey is the private OpenSSH key generated to allow the git-sync to clone the policy library repository over SSH.
-  # Omitting this value will sync the policy-library over HTTPS.
-  privateSSHKey: ""
-
-  # gitSync.wait the time number of seconds between git-syncs
-  wait: 30
-
 policyLibrary:
-  # policyLibrary.repositoryURL is a git repository policy-library.
-  repositoryURL: "https://github.com/forseti-security/policy-library"
+  # bucket is the GCS storage bucket containing the policy-library.  This overrides policyLibrary.respositoryURL. Omit the gs://.
+  bucket: ""
+
+  # policyLibrary.bucketFolder is the folder inside the policyLibrary.bucket containing all the policy-library lib and policies folders.
+  bucketFolder: "policy-library"
+
+  # policyLibrary.repositoryURL is a Git repository pointing to a policy-library.
+  repositoryURL: ""
 
   # policyLibrary.repositoryBranch is the specific git branch containing the policies.
   repositoryBranch: "master"
+
+  gitSync:
+    # policyLibrary.gitSync.enabled determines if the Git repository will be polled periodically for changes.
+    enabled: false
+
+    # policyLibrary.gitSync.image is the container image used by the config-validator git-sync side-car
+    image: gcr.io/google-containers/git-sync
+
+    # policyLibrary.gitSync.imageTag is the container image tag used by the config-validator git-sync side-car
+    imageTag: v3.1.2
+
+    # policyLibrary.gitSync.privateSSHKey is the private OpenSSH key generated to allow the git-sync to clone the policy library repository over SSH.
+    # Omitting this value will sync the policy-library over HTTPS.
+    privateSSHKey: ""
+
+    # policyLibrary.gitSync.wait the time number of seconds between git-syncs
+    wait: 30
+
+# workloadIdentity is a GCP IAM Service account with the storage.objects.list (e.g. roles/storage.objectViewer)
+# Setting this assumes that workloadIdentity is configured for the GKE cluster.
+workloadIdentity: ""

@@ -12,9 +12,27 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-dependencies:
-- name: config-validator
-  repository: "https://forseti-security-charts.storage.googleapis.com/release/"
-  version: 0.1.0
-  alias: configValidator
-  condition: configValidator.enabled
+{{- define "spec.container.emptyDir" }}
+- name: empty-dir-lib
+  image: gcr.io/cloud-builders/gsutil
+  command: ["/bin/mkdir"]
+  args: ["/policy-library/lib"]
+  volumeMounts:
+  - name: policy-library
+    mountPath: /policy-library/
+  securityContext:
+    runAsUser: 65533
+    runAsGroup: 65533
+    fsGroup: 65533
+- name: empty-dir-policies
+  image: gcr.io/cloud-builders/gsutil
+  command: ["/bin/mkdir"]
+  args: ["/policy-library/policies"]
+  volumeMounts:
+  - name: policy-library
+    mountPath: /policy-library/
+  securityContext:
+    runAsUser: 65533
+    runAsGroup: 65533
+    fsGroup: 65533
+{{- end }}
