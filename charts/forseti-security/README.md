@@ -42,7 +42,7 @@ helm install --set production=true \
 ```
 Note that certain values are required.  See the [configuration](#configuration) for details.
 
-Also note that if running on *MacOS*, the `-w 0` flag is not supported for the `base64` command and should be ommitted from the above command.
+Also note that if running on *MacOS*, the `-w 0` flag is not supported for the `base64` command and should be omitted from the above command.
 
 #### Upgrading
 
@@ -85,7 +85,7 @@ helm template --set production=true \
               --values=forseti-values.yaml \
               forseti-security-[VERSION].tgz | kubectl apply -f -
 ```
-Also note that if running on *MacOS*, the `-w 0` flag is not supported for the `base64` command and should be ommitted from the above command.
+Also note that if running on *MacOS*, the `-w 0` flag is not supported for the `base64` command and should be omitted from the above command.
 
 #### Uninstalling
 
@@ -97,7 +97,7 @@ helm template --set production=true \
               --values=forseti-values.yaml \
               forseti-security-[VERSION].tgz | kubectl delete -f -
 ```
-Also note that if running on *MacOS*, the `-w 0` flag is not supported for the `base64` command and should be ommitted from the above command.
+Also note that if running on *MacOS*, the `-w 0` flag is not supported for the `base64` command and should be omitted from the above command.
 
 ## Configuration
 
@@ -147,7 +147,7 @@ helm install forseti-security/forseti-security \
 | production                    | Deploy in a production configuration.                      | `false`|
 | server.cloudProfilerEnabled           | enables the forseti-server to send metrics to Cloud Profiler | `false` |
 | server.loadBalancer                  | Deploy a Load Balancer allowing access to the Forseti server ['none', 'internal', 'external'] | `none` |
-| server.rules.bucket                   | The GCS bucket containing the rules.  Often this is the same as the serverBucket.  Ommit the "gs://".| server.bucket |
+| server.rules.bucket                   | The GCS bucket containing the rules.  Often this is the same as the serverBucket.  Omit the "gs://".| server.bucket |
 | server.rules.bucketFolder             | The Folder inside the rulesBucket containing all the rules.| `rules`|
 | **server.config.bucket**              | The GCS bucket used by the Forseti server.  Omit the "gs://" | `nil`|
 | server.config.bucketFolder      | The folder in the server bucket containing the server configs. | `configs` |
