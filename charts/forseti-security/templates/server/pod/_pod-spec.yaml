@@ -29,8 +29,4 @@ volumes:
 - name: forseti-server-config-volume
   configMap:
     name: {{ .Release.Name }}-server-conf
-{{- if not .Values.production }}
-- name: mysql-disk
-  emptyDir: {}
-{{ end }}
 {{- end }}

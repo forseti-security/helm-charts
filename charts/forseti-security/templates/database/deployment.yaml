@@ -38,5 +38,9 @@ spec:
 {{- include "spec.container.cloudsqlproxy" . | indent 6 }}
 {{ else }}
 {{- include "spec.container.sql" . | indent 6 }}
+      volumes:
+      - name: mysql-disk
+        emptyDir: {}
 {{ end }}
+
 
