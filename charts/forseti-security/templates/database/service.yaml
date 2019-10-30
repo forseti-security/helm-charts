@@ -11,26 +11,19 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
-{{- define "spec.pod.server" }}
-{{- if .Values.nodeSelectors }}
-nodeSelector:
-{{- end }}
-{{- range .Values.nodeSelectors }}
-{{ $split_selector := splitList "=" . }}
-  {{ index $split_selector 0 }}: {{ index $split_selector 1 }}
-{{- end }}
-containers:
-{{- include "spec.container.server" . }}
-securityContext:
-  runAsUser: 1000
-  fsGroup: 65532
-volumes:
-- name: forseti-server-config-volume
-  configMap:
-    name: {{ .Release.Name }}-server-conf
-{{- if not .Values.production }}
-- name: mysql-disk
-  emptyDir: {}
-{{ end }}
+{{- if .Values.production }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}-database
+  labels:
+    component: forseti-database
+    chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+spec:
+  ports:
+  - port: 3306
+    targetPort: 3306
+    protocol: TCP
+  selector:
+    component: forseti-database
 {{- end }}
