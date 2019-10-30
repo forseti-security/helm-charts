@@ -102,4 +102,3 @@ networkPolicy:
   # communication to the server.  This is only relevant for client connectivity
   # from outside the Kubernetes cluster.
   ingressCidr: []
-  
