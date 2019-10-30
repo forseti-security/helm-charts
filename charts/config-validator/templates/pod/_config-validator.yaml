@@ -12,9 +12,22 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-dependencies:
+{{- define "spec.container.configValidator" }}
 - name: config-validator
-  repository: "https://forseti-security-charts.storage.googleapis.com/release/"
-  version: 0.1.0
-  alias: configValidator
-  condition: configValidator.enabled
+  image: "{{ .Values.image }}:{{ .Values.imageTag }}"
+  args: ["-policyPath", "/policy-library/policies", "-policyLibraryPath", "/policy-library/lib", "-port", "50052", "-alsologtostderr"]
+  ports:
+  - containerPort: 50052
+  env:
+  - name: GOGC
+    value: "1000"
+  volumeMounts:
+  - name: policy-library
+    mountPath: /policy-library/policies
+    subPath: policy-library/policies
+    readOnly: true
+  - name: policy-library
+    mountPath: /policy-library/lib
+    subPath: policy-library/lib
+    readOnly: true
+{{- end }}

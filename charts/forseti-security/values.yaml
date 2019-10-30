@@ -34,7 +34,7 @@ server:
 
   rules:
     # server.rules.bucket is the GCS bucket containing the rules.  Often this is the same as the
-    # serverBucket.  Ommit the "gs://".
+    # serverBucket.  Omit the "gs://".
     bucket: ""
 
     # server.rules.bucketFolder is the folder inside the rulesBucket containing all the rules.
@@ -82,54 +82,17 @@ orchestrator:
   # Setting this assumes that workloadIdentity is configured for the GKE cluster.
   workloadIdentity: ""
 
-
 ## config-validator ##
 configValidator:
   # configValidator sets whether or not to deploy config-validator
   enabled: false
 
-  # configValidatorImage is the container image used by the config-validator
-  image: gcr.io/forseti-containers/config-validator
+# nodeSelectors is a list of strings in the form of label=value describing
+# on which nodes to run the Forseti on-GKE pods.
+nodeSelectors: []
 
-  # configValidatorImageTag is the tag for the config-validator image.
-  imageTag: latest
-
-  # loadBalancer is the type of load balancer to deploy for the config-validator
-  # if desired: none, external, internal
-  loadBalancer: none
-
-  networkPolicy:
-    # networkPolicy.enabled enables pod network policy to limit the connectivty to the server.
-    enabled: false
-
-    # networkPolicyIngressCidr is a list of CIDR's from which to allow
-    # communication to the server.  This is only relevant for client connectivity
-    # from outside the Kubernetes cluster.
-    ingressCidr: []
-
-  # nodeSelectors is a list of strings in the form of label=value describing
-  # on which nodes to run the Forseti on-GKE pods.
-  nodeSelectors: []
-
-  gitSync:
-    # gitSync.image is the container image used by the config-validator git-sync side-car
-    image: gcr.io/google-containers/git-sync
-
-    # gitSync.imageTag is the container image tag used by the config-validator git-sync side-car
-    imageTag: v3.1.2
-
-    # gitSync.privateSSHKey is the private OpenSSH key generated to allow the git-sync to clone the policy library repository.
-    privateSSHKey: ""
-
-    # gitSync.wait the time number of seconds between git-syncs
-    gitSyncWait: 30
-
-  policyLibrary:
-    # policyLibrary.repositoryURL is a git repository policy-library.
-    repositoryURL: "https://github.com/forseti-security/policy-library"
-
-    # policyLibraryRepositoryBranch is the specific git branch containing the policies.
-    repositoryBranch: "master"
+# production sets whether or not to deploy in a production configuration.
+production: false
 
 networkPolicy:
   # networkPolicy.enable enables pod network policy to limit the connectivty to the server.
@@ -139,10 +102,3 @@ networkPolicy:
   # communication to the server.  This is only relevant for client connectivity
   # from outside the Kubernetes cluster.
   ingressCidr: []
-
-# nodeSelectors is a list of strings in the form of label=value describing
-# on which nodes to run the Forseti on-GKE pods.
-nodeSelectors: []
-
-# production sets whether or not to deploy in a production configuration.
-production: false

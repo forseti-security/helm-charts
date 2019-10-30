@@ -24,7 +24,7 @@ data:
 {{ if .Values.production }}
     {{- $decodedServerConfig := .Values.server.config.contents | b64dec | nindent 4 }}
     {{- $rulesPathRegex := "(rules_path:\\s*)(.*)" }}
-    {{- $newRulesPath :=  printf "%s%s/%s" "rules_path: gs://" (.Values.server.rules.bucket | default .Values.server.bucket) .Values.server.rules.bucketFolder }}
+    {{- $newRulesPath :=  printf "%s%s/%s" "rules_path: gs://" (.Values.server.rules.bucket | default .Values.server.config.bucket) .Values.server.rules.bucketFolder }}
     {{- $updatedConfig := regexReplaceAll $rulesPathRegex $decodedServerConfig $newRulesPath }}
     {{- $updatedConfig }}
 {{ else }}

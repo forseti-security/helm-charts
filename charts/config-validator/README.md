@@ -4,7 +4,8 @@
 
 ## Prerequisites
 
-1. Kubernetes Cluster 1.12+.
+1. Kubernetes Cluster 1.12+ with the [workload-identity](https://cloud.google.com/kubernetes-engine/docs/how-to/workload-identity) addon enabled.
+2. A GCP project IAM policy binding tying the Kubernetes Service account for the config-validator (created by this chart) to the GCP IAM Forseti server service account.  This binding is created via the Terraform module or can be created [manually](https://cloud.google.com/kubernetes-engine/docs/how-to/workload-identity#enable_workload_identity_on_a_new_cluster).
 
 ## Quick start
 Install a Config Validator service by executing:
@@ -102,13 +103,16 @@ helm install forseti-security/config-validator \
 | ----------------------------- | ------------------------------------ |------------------------------------------- |
 | image          | This is the container image used by the config-validator  | `gcr.io/forseti-containers/config-validator` |
 | imageTag       | This is the tag for the config-validator image.           | `latest` |
-| gitSync.image  | This is the container image used by the config-validator git-sync side-car | `gcr.io/google-containers/git-sync` |
-| gitSync.imageTag               | This is the container image tag used by the config-validator git-sync side-car | `v3.1.2` |
-| gitSync.privateSSHKey          | This is the private OpenSSH key generated to allow the git-sync to clone the policy library repository over SSH. Omitting this value will sync the policy-library over HTTPS. | `nil` |
-| gitSync.wait                   | This is the time number of seconds between git-syncs      | `30` |
+| policyLibrary.gitSync.image  | This is the container image used by the config-validator git-sync side-car | `gcr.io/google-containers/git-sync` |
+| policyLibrary.gitSync.imageTag               | This is the container image tag used by the config-validator git-sync side-car | `v3.1.2` |
+| policyLibrary.gitSync.privateSSHKey          | This is the private OpenSSH key generated to allow the git-sync to clone the policy library repository over SSH. Omitting this value will sync the policy-library over HTTPS. | `nil` |
+| policyLibrary.gitSync.wait                   | This is the time number of seconds between git-syncs      | `30` |
 | loadBalancer                  | Deploy a Load Balancer allowing access to the Forseti server ['none', 'internal', 'external'] | `none` |
-| networkPolicy.enable           | Enable pod network policy to limit the connectivty to the server. | `false` |
+| networkPolicy.enabled           | Enable pod network policy to limit the connectivty to the server. | `false` |
 | networkPolicy.ingressCidr      | A list of CIDR's from which to allow communication to the server.  This is only relevant for client connectivity from outside the Kubernetes cluster. | `[]` |
 | nodeSelectors                 | A list of strings in the form of label=value describing on which nodes to run the Forseti on-GKE pods. | `nil` |
+| policyLibrary.bucket          | The GCS storage bucket containing the policy-library.  This overrides policyLibrary.respositoryURL. Omit the gs://. | `nil` |
+| policyLibrary.bucketFolder    | The folder inside the policyLibrary.bucket containing all the policy-library lib and policies folders | `policy-library` |
 | policyLibrary.repositoryURL    | The Git repository containing the policy-library. | `https://github.com/forseti-security/policy-library` |
 | policyLibrary.repositoryBranch | The specific git branch containing the policies. | `master` |
+| workloadIdentity               | A GCP IAM Service account with the storage.objects.list (e.g. roles/storage.objectViewer) Setting this assumes that workloadIdentity is configured for the GKE cluster. | `nil` |
