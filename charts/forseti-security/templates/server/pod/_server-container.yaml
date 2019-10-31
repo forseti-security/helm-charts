@@ -20,13 +20,9 @@
   args:
   - --run_server
   - --services
-{{- if .Values.production }}
   - 'explain inventory model scanner server notifier'
-{{- else }}
-  - 'server inventory'
   - --sql_host
-  - {{ .Release.Name }}-server.{{ .Release.Namespace }}.svc.cluster.local
-{{- end }}
+  - {{ .Release.Name }}-database.{{ .Release.Namespace }}.svc.cluster.local
   - --sql_database_name
   -  {{ .Values.database.name }}
   - --log_level

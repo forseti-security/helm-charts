@@ -15,19 +15,30 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Release.Name }}-server
+  name: {{ .Release.Name }}-database
 spec:
   selector:
     matchLabels:
-      component: forseti-server
+      component: forseti-database
   replicas: 1
   template:
     metadata:
       labels:
-        component: forseti-server
-        configValidator: client
-        database: client
+        component: forseti-database
         chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
     spec:
       serviceAccountName: forseti-server
-{{- include "spec.pod.server" . | indent 6 }}
+      nodeSelector:
+      {{- range .Values.nodeSelectors }}
+      {{ $split_selector := splitList "=" . }}
+        {{ index $split_selector 0 }}: {{ index $split_selector 1 }}
+      {{- end }}
+      containers:
+{{- if .Values.production }}
+{{- include "spec.container.cloudsqlproxy" . | indent 6 }}
+{{ else }}
+{{- include "spec.container.sql" . | indent 6 }}
+      volumes:
+      - name: mysql-disk
+        emptyDir: {}
+{{ end }}
