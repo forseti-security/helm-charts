@@ -43,6 +43,7 @@ policyLibrary:
   bucketFolder: "policy-library"
 
   # policyLibrary.repositoryURL is a Git repository pointing to a policy-library.
+  # GCP Cloud Source format: https://cloud.google.com/source-repositories/docs/authentication#manually-generated-credentials
   repositoryURL: ""
 
   # policyLibrary.repositoryBranch is the specific git branch containing the policies.
