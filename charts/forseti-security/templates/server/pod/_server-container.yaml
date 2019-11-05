@@ -39,6 +39,16 @@
   env:
   - name: FORSETI_HOME
     value: /forseti-security
+  - name: SQL_DB_USER
+    valueFrom:
+      secretKeyRef:
+        name: database-secret
+        key: username
+  - name: SQL_DB_PASSWORD
+    valueFrom:
+      secretKeyRef:
+        name: database-secret
+        key: password
 {{- if .Values.configValidator }}
   - name: CONFIG_VALIDATOR_ENDPOINT
     value: {{ .Release.Name }}-config-validator.{{ .Release.Namespace }}.svc.cluster.local:50052
