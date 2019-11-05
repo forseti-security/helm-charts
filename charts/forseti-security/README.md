@@ -29,6 +29,12 @@ Optionally, a Forseti orchestrator can be deployed.  This is essentially a conta
 
 ## Installing the Forseti Security Chart
 
+Create a Kubernetes namespace that matches the namespace defined in your workload identity.
+```bash
+export FORSETI_NAMESPACE=[SOME_NAMEPSACE]
+kubectl create ns $FORSETI_NAMESPACE
+```
+
 ### With Tiller (Option 1)
 
 #### Installing
@@ -36,7 +42,8 @@ The forseti-security Helm chart can be installed using the following as an examp
 ```bash
 helm install --set production=true \
              --name forseti  \
-             --set-string serverConfigContents="$(gsutil cat gs://<BUCKET_NAME>/configs/forseti_conf_server.yaml | base64 -)" \
+             --namespace $FORSETI_NAMESPACE \
+             --set-string server.config.contents="$(gsutil cat gs://<BUCKET_NAME>/configs/forseti_conf_server.yaml | base64 -)" \
              --values=forseti-values.yaml \
              forseti-security/forseti-security
 ```
@@ -49,9 +56,10 @@ Also note that if running on *MacOS*, the `-w 0` flag is not supported for the `
 The forseti-security Helm chart can be easily upgraded via the ```helm upgrade``` command.  For example:
 ```bash
 helm upgrade -i forseti forseti-security/forseti-security \
+    --namespace $FORSETI_NAMESPACE \
     --set production=true \
     --recreate-pods \
-    --set-string serverConfigContents="$(gsutil cat gs://<BUCKET_NAME>/configs/forseti_conf_server.yaml | base64 -)" \
+    --set-string server.config.contents="$(gsutil cat gs://<BUCKET_NAME>/configs/forseti_conf_server.yaml | base64 -)" \
     --values=forseti-values.yaml
 ```
 
@@ -81,7 +89,8 @@ Next, render the template and pipe it into `kubectl`.  Take note to change the *
 
 ```bash
 helm template --set production=true \
-              --set-string serverConfigContents="$(gsutil cat gs://[SERVER_BUCKET]/configs/forseti_conf_server.yaml | base64 -)" \
+              --namespace $FORSETI_NAMESPACE \
+              --set-string server.config.contents="$(gsutil cat gs://[SERVER_BUCKET]/configs/forseti_conf_server.yaml | base64 -)" \
               --values=forseti-values.yaml \
               forseti-security-[VERSION].tgz | kubectl apply -f -
 ```
@@ -93,7 +102,8 @@ Similar to installing or upgrading, the Forseti Security components can be unins
 
 ```bash
 helm template --set production=true \
-              --set-string serverConfigContents="$(gsutil cat gs://[SERVER_BUCKET]/configs/forseti_conf_server.yaml | base64 -)" \
+              --namespace $FORSETI_NAMESPACE \
+              --set-string server.config.contents="$(gsutil cat gs://[SERVER_BUCKET]/configs/forseti_conf_server.yaml | base64 -)" \
               --values=forseti-values.yaml \
               forseti-security-[VERSION].tgz | kubectl delete -f -
 ```
@@ -106,7 +116,7 @@ As a best practice, a YAML file that specifies the values for the chart paramete
 **Copy the default [`forseti-security-values.yaml`](values.yaml) value file.**
 
 ```bash
-helm install -f forseti-security-values.yaml <RELEASE_NAME> forseti-security/forseti-security
+helm install -f forseti-security-values.yaml --namespace $FORSETI_NAMESPACE <RELEASE_NAME> forseti-security/forseti-security
 ```
 
 See the [All configuration options](#all-configuration-options) section to discover all possibilities offered by the Forseti Security chart.
@@ -126,8 +136,9 @@ The following table lists the configurable parameters of the Forseti Security ch
 ```bash
 helm install forseti-security/forseti-security \
     --name forseti \
+    --namespace $FORSETI_NAMESPACE \
     --set production=true
-    --set-string serverConfigContents="$(gsutil cat gs://<BUCKET_NAME>/configs/forseti_conf_server.yaml | base64 -)" \
+    --set-string server.config.contents="$(gsutil cat gs://<BUCKET_NAME>/configs/forseti_conf_server.yaml | base64 -)" \
     --values forseti-values.yaml
 
 ```
