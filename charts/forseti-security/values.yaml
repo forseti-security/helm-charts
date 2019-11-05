@@ -62,6 +62,12 @@ database:
   # database.name is the name of the Forseti Cloud SQL database
   name: forseti_security
 
+  # database.username is the user of the Forseti Cloud SQL database.
+  username: ""
+
+  # database.password is the password of the Forseti Cloud SQL database.
+  password: ""
+
 
 ## forseti-orchestrator ##
 orchestrator:
