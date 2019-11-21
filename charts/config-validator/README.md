@@ -5,7 +5,8 @@
 ## Prerequisites
 
 1. Kubernetes Cluster 1.12+ with the [workload-identity](https://cloud.google.com/kubernetes-engine/docs/how-to/workload-identity) addon enabled.
-2. A GCP project IAM policy binding tying the Kubernetes Service account for the config-validator (created by this chart) to the GCP IAM Forseti server service account.  This binding is created via the Terraform module or can be created [manually](https://cloud.google.com/kubernetes-engine/docs/how-to/workload-identity#enable_workload_identity_on_a_new_cluster).
+2. If using a bucket to sync config validator policy, then a GCP project IAM policy binding tying the Kubernetes Service account for the config-validator (created by this chart) to the GCP IAM Forseti client service account. This binding is created via the Terraform module or can be created [manually](https://cloud.google.com/kubernetes-engine/docs/how-to/workload-identity#enable_workload_identity_on_a_new_cluster).
+
 
 ## Quick start
 Install a Config Validator service by executing:
