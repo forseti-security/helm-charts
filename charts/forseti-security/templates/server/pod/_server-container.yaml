@@ -36,8 +36,8 @@
   - name: forseti-server-config-volume
     mountPath: /forseti-security
     readOnly: true
-  env:	
-  - name: FORSETI_HOME	
+  env:
+  - name: FORSETI_HOME
     value: /forseti-security
 {{- if .Values.configValidator }}
   - name: CONFIG_VALIDATOR_ENDPOINT
