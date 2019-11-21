@@ -36,10 +36,8 @@
   - name: forseti-server-config-volume
     mountPath: /forseti-security
     readOnly: true
-  env:
-  - name: FORSETI_HOME
-    value: /forseti-security
 {{- if .Values.configValidator }}
+  env:
   - name: CONFIG_VALIDATOR_ENDPOINT
     value: {{ .Release.Name }}-config-validator.{{ .Release.Namespace }}.svc.cluster.local:50052
 {{- end }}
