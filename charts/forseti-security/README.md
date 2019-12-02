@@ -8,6 +8,7 @@
 2. A Forseti environment.  This can be created via the Forseti Security [Terraform module](https://forsetisecurity.org/docs/latest/setup/install.html).
 3. A GCP project IAM policy binding tying the Kubernetes Service account for the server (created by this chart) to the GCP IAM Forseti server service account.  This binding is created via the Terraform module or can be created [manually](https://cloud.google.com/kubernetes-engine/docs/how-to/workload-identity#enable_workload_identity_on_a_new_cluster).
 4. A GCP project IAM policy binding tying the Kubernetes Service account for the orchestrator (created by this chart) to the GCP IAM Forseti client service account.  This binding is created via the Terraform module or can be created [manually](https://cloud.google.com/kubernetes-engine/docs/how-to/workload-identity#enable_workload_identity_on_a_new_cluster).
+5. If using a bucket to sync config validator policy, then a GCP project IAM policy binding tying the Kubernetes Service account for the config-validator (created by this chart) to the GCP IAM Forseti client service account. This binding is created via the Terraform module or can be created [manually](https://cloud.google.com/kubernetes-engine/docs/how-to/workload-identity#enable_workload_identity_on_a_new_cluster).
 
 ## Production Configuration
 Whether or not to deploy the forseti-security helm chart in a production configuration is controlled by the **production** value.  By default, this is set to **false**.  A production configuration presumes the existence of [Forseti infrastructure](https://forsetisecurity.org/docs/latest/concepts/architecture.html).  The required components are deployed via the Forseti Terrafom Module.  
@@ -153,7 +154,7 @@ helm install forseti-security/forseti-security \
 | nodeSelectors                 | A list of strings in the form of label=value describing on which nodes to run the Forseti on-GKE pods. | `nil` |
 | orchestrator.enabled            | Whether or not to deploy the orchestrator.                | `true`|
 | orchestrator.image             | The container image used by the orchestrator.             | `gcr.io/forseti-security-containers/forseti`|
-| orchestrator.imageTag          | The tag for the orchestrator container image.              | `v2.23.0` |
+| orchestrator.imageTag          | The tag for the orchestrator container image.              | `v2.24.0` |
 | **orchestrator.workloadIdentity**  | the GCP IAM Service account for the Forseti client/orchestrator. | `nil` |
 | production                    | Deploy in a production configuration.                      | `false`|
 | server.cloudProfilerEnabled           | enables the forseti-server to send metrics to Cloud Profiler | `false` |
@@ -164,7 +165,7 @@ helm install forseti-security/forseti-security \
 | server.config.bucketFolder      | The folder in the server bucket containing the server configs. | `configs` |
 | **server.config.contents**      | The Base64 encoded contents of the forseti_conf_server.yaml file.| `nil`|
 | server.image                   | The container image used by the server.                   | `gcr.io/forseti-security-containers/forseti`|
-| server.imageTag                | The tag for the server container image.              | `v2.23.0` |
+| server.imageTag                | The tag for the server container image.              | `v2.24.0` |
 | server.logLevel                | The log level for the server.                             | `info` |
 | server.runFrequency               | The cron schedule for the server.  The default is every 60 minute.    | `"*/60 * * * *"` Every 60 minutes|
 | **server.workloadIdentity**        | The GCP IAM Service account for the Forseti server.       | `nil` |
