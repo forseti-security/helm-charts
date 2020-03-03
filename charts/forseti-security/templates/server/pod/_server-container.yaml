@@ -39,6 +39,8 @@
   env:
   - name: FORSETI_HOME
     value: /forseti-security
+  - name: FORSETI_PLATFORM
+    value: gke
   - name: SQL_DB_USER
     valueFrom:
       secretKeyRef:
