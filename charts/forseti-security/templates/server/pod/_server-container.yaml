@@ -41,6 +41,17 @@
     value: /forseti-security
   - name: FORSETI_PLATFORM
     value: gke
+  - name: SQL_DB_USER
+    valueFrom:
+      secretKeyRef:
+        name: database-secret
+        key: username
+  - name: SQL_DB_PASSWORD
+    valueFrom:
+      secretKeyRef:
+        name: database-secret
+        key: password
+>>>>>>> master
 {{- if .Values.configValidator }}
   - name: CONFIG_VALIDATOR_ENDPOINT
     value: {{ .Release.Name }}-config-validator.{{ .Release.Namespace }}.svc.cluster.local:50052

@@ -18,7 +18,6 @@
   securityContext:
     runAsUser: 999
     runAsGroup: 999
-    fsGroup: 999
   env:
   - name: MYSQL_ALLOW_EMPTY_PASSWORD
     value: "1"
