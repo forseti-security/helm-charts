@@ -37,7 +37,7 @@ steps:
 
 substitutions:
   _PROJECT_ID: forseti-test-infrastructure
-  _GKE_CLUSTER: helm-test-cluster
+  _GKE_CLUSTER: helm-test-cluster-private
   _LOCATION:  us-central1
   _IMAGE_TAG: v3.3.2
   _IMAGE_REPOSITORY: gcr.io/kubernetes-charts-ci/test-image
