@@ -19,6 +19,6 @@
   args:
   - -instances={{ .Values.database.connectionName }}=tcp:0.0.0.0:3306
   securityContext:
-    runAsUser: 2
+    runAsUser: 65532
     allowPrivilegeEscalation: false
 {{ end -}}
