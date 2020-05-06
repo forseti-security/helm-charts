@@ -14,7 +14,6 @@
 
 {{- define "spec.container.kubeProxy" }}
 - name: kube-proxy
-  image: mirror.gcr.io/bitnami/kubectl:latest
   image: "{{ .Values.policyLibrary.gitSync.kubeProxyImage }}:{{ .Values.policyLibrary.gitSync.kubeProxyImageTag }}"
   args:
   - proxy
