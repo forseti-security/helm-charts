@@ -59,6 +59,12 @@ policyLibrary:
     # policyLibrary.gitSync.imageTag is the container image tag used by the config-validator git-sync side-car
     imageTag: v3.1.2
 
+    # policyLibrary.gitSync.kubeProxyImage is the container image used by the config-validator's kube-proxy sidecar to periodically delete the git-sync pod
+    kubeProxyImage: docker.io/bitnami/kubectl
+
+    # policyLibrary.gitSync.kubeProxyImageTag is the container image tag used by the config-validator's kube-proxy sidecar to periodically delete the git-sync pod
+    kubeProxyImageTag: "1.15"
+
     # policyLibrary.gitSync.privateSSHKey is the private OpenSSH key generated to allow the git-sync to clone the policy library repository over SSH.
     # Omitting this value will sync the policy-library over HTTPS.
     privateSSHKey: ""
