@@ -15,7 +15,7 @@
 {{- define "spec.container.gsutilInit" }}
 - name: gsutil-init
   image: gcr.io/cloud-builders/gsutil
-  args: ['rsync', '-r', 'gs://{{ .Values.policyLibrary.bucket }}/{{ .Values.policyLibrary.bucketFolder }}/', '/policy-library/']
+  args: ['-m', 'rsync', '-d' '-r', 'gs://{{ .Values.policyLibrary.bucket }}/{{ .Values.policyLibrary.bucketFolder }}/', '/policy-library/']
   env:
   - name: HOME
     value: /policy-library
